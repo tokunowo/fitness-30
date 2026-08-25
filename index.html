@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b1020">
+<title>30-Day Fitness Reset</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="hero">
+  <div>
+    <div class="eyebrow">AUG 24 → SEP 22, 2026</div>
+    <h1>30-Day Fitness Reset</h1>
+    <p>Muscle • Cardio • 2-Mile Foundation • Six-Pack Core</p>
+  </div>
+  <div class="ring"><span id="progressPct">0%</span></div>
+</header>
+
+<nav class="tabs">
+  <button data-view="today" class="active">Today</button>
+  <button data-view="calendar">30 Days</button>
+  <button data-view="progress">Progress</button>
+</nav>
+
+<main>
+<section id="todayView" class="view"></section>
+<section id="calendarView" class="view hidden"></section>
+<section id="progressView" class="view hidden"></section>
+</main>
+
+<footer>
+  <p>Train with control. Sharp pain, chest pain, faintness or unusual shortness of breath = stop and seek medical guidance as appropriate.</p>
+</footer>
+
+<script src="plan.js"></script>
+<script src="app.js"></script>
+<script>
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+</script>
+</body>
+</html>

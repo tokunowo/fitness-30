@@ -1,0 +1,9 @@
+{
+  "name": "30-Day Fitness Reset",
+  "short_name": "Fitness 30",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#070b16",
+  "theme_color": "#0b1020",
+  "description": "Personal 30-day muscle, cardio and core workout tracker."
+}
