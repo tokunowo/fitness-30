@@ -4,7 +4,7 @@ const PLAN = [
     "date": "2026-08-25",
     "dateLabel": "Tuesday, August 25, 2026",
     "title": "Full-Body Reset + Easy Cardio",
-    "target": "25\u201330 min",
+    "target": "25–30 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -14,31 +14,31 @@ const PLAN = [
       },
       {
         "name": "Goblet Squat",
-        "work": "2 \u00d7 8",
+        "work": "2 × 8",
         "cue": "Hold one 15-lb dumbbell at chest. Sit down between your hips; knees follow toes.",
         "video": "https://www.youtube.com/watch?v=nfX7IFK9UNI"
       },
       {
         "name": "Incline Push-up",
-        "work": "2 \u00d7 6\u20138",
+        "work": "2 × 6–8",
         "cue": "Hands on your bench. Keep your body straight and lower your chest toward the bench.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Row",
-        "work": "2 \u00d7 8 each arm",
+        "work": "2 × 8 each arm",
         "cue": "Support one hand on bench. Pull the dumbbell toward your hip without twisting.",
         "video": "https://www.youtube.com/watch?v=EqEOuGFyOgc"
       },
       {
         "name": "Glute Bridge",
-        "work": "2 \u00d7 10",
+        "work": "2 × 10",
         "cue": "Lie on back, feet planted, lift hips and squeeze glutes.",
         "video": "https://www.youtube.com/watch?v=zAraUpwz1l4"
       },
       {
         "name": "Dead Bug",
-        "work": "2 \u00d7 5 each side",
+        "work": "2 × 5 each side",
         "cue": "Move slowly and keep your lower back gently pressed down.",
         "video": "https://www.youtube.com/watch?v=bxn9FBrt4-A"
       },
@@ -61,7 +61,7 @@ const PLAN = [
     "date": "2026-08-26",
     "dateLabel": "Wednesday, August 26, 2026",
     "title": "Run/Walk + Core",
-    "target": "30\u201338 min",
+    "target": "30–38 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -71,19 +71,19 @@ const PLAN = [
       },
       {
         "name": "Run/Walk",
-        "work": "5-min brisk walk; 1-min easy jog / 90-sec walk \u00d7 7; 5-min easy walk",
+        "work": "5-min brisk walk; 1-min easy jog / 90-sec walk × 7; 5-min easy walk",
         "cue": "Jog EASY. Do not sprint. Walking breaks are part of training.",
         "video": "https://www.youtube.com/watch?v=XXYtfpqFo24"
       },
       {
         "name": "Reverse Crunch",
-        "work": "2 \u00d7 10",
+        "work": "2 × 10",
         "cue": "Curl pelvis toward ribs; do not swing.",
         "video": "https://www.youtube.com/watch?v=wtKWBzDwfIM"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 30 sec",
+        "work": "2 × 30 sec",
         "cue": "Brace core while breathing.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -100,7 +100,7 @@ const PLAN = [
     "date": "2026-08-27",
     "dateLabel": "Thursday, August 27, 2026",
     "title": "Back + Arms + Posture",
-    "target": "30\u201340 min",
+    "target": "30–40 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -110,31 +110,25 @@ const PLAN = [
       },
       {
         "name": "Dumbbell Row",
-        "work": "2 \u00d7 10 each arm",
+        "work": "2 × 10 each arm",
         "cue": "Pull elbow toward hip; pause briefly.",
         "video": "https://www.youtube.com/watch?v=EqEOuGFyOgc"
       },
       {
         "name": "Band Row",
-        "work": "2 \u00d7 12",
+        "work": "2 × 12",
         "cue": "Anchor band securely; squeeze shoulder blades.",
         "video": "https://www.youtube.com/watch?v=WkNuYbWZ8g8"
       },
       {
-        "name": "Band Row",
-        "work": "2 \u00d7 12",
-        "cue": "Anchor the band securely; pull toward your torso and squeeze the shoulder blades.",
-        "video": "https://www.youtube.com/watch?v=WkNuYbWZ8g8"
-      },
-      {
         "name": "Hammer Curl",
-        "work": "2 \u00d7 10",
+        "work": "2 × 10",
         "cue": "Palms face inward; elbows stay close to ribs.",
         "video": "https://www.youtube.com/watch?v=TwD-YGVP4Bk"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 30 sec",
+        "work": "2 × 30 sec",
         "cue": "Keep hips level.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -151,7 +145,7 @@ const PLAN = [
     "date": "2026-08-28",
     "dateLabel": "Friday, August 28, 2026",
     "title": "Legs + Bicycle",
-    "target": "35\u201345 min",
+    "target": "35–45 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -161,25 +155,25 @@ const PLAN = [
       },
       {
         "name": "Goblet Squat",
-        "work": "2 \u00d7 11",
+        "work": "2 × 11",
         "cue": "Controlled descent; drive through whole foot.",
         "video": "https://www.youtube.com/watch?v=nfX7IFK9UNI"
       },
       {
         "name": "Romanian Deadlift",
-        "work": "2 \u00d7 10",
+        "work": "2 × 10",
         "cue": "Hinge hips back. Neutral spine. Feel hamstrings.",
         "video": "https://www.youtube.com/watch?v=V8Hdl1FiNt4"
       },
       {
         "name": "Glute Bridge",
-        "work": "2 \u00d7 12",
+        "work": "2 × 12",
         "cue": "Squeeze glutes at top.",
         "video": "https://www.youtube.com/watch?v=zAraUpwz1l4"
       },
       {
         "name": "Calf Raise",
-        "work": "2 \u00d7 15",
+        "work": "2 × 15",
         "cue": "Rise slowly and lower under control.",
         "video": "https://www.youtube.com/watch?v=Xa18jxyeSnM"
       },
@@ -202,7 +196,7 @@ const PLAN = [
     "date": "2026-08-29",
     "dateLabel": "Saturday, August 29, 2026",
     "title": "WFH Power Day: Chest, Shoulders + Six-Pack",
-    "target": "45\u201355 min",
+    "target": "45–55 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -212,43 +206,43 @@ const PLAN = [
       },
       {
         "name": "Incline Push-up",
-        "work": "2 \u00d7 10",
+        "work": "2 × 10",
         "cue": "Use lower bench angle only if form stays strong.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Floor Press",
-        "work": "2 \u00d7 11",
+        "work": "2 × 11",
         "cue": "Controlled lowering; strong press.",
         "video": "https://www.youtube.com/watch?v=uUGDRwge4F8"
       },
       {
         "name": "Dumbbell Shoulder Press",
-        "work": "2 \u00d7 9",
+        "work": "2 × 9",
         "cue": "Brace core.",
         "video": "https://www.youtube.com/watch?v=qEwKCR5JCog"
       },
       {
         "name": "Bench Crunch",
-        "work": "2 \u00d7 12",
+        "work": "2 × 12",
         "cue": "Curl ribs toward pelvis; don't pull your neck.",
         "video": "https://www.youtube.com/watch?v=NIA6kpguG_o"
       },
       {
         "name": "Leg Raise",
-        "work": "2 \u00d7 8",
+        "work": "2 × 8",
         "cue": "Only lower legs as far as you can control.",
         "video": "https://www.youtube.com/watch?v=sY2ZgV2Sj_s"
       },
       {
         "name": "Russian Twist",
-        "work": "2 \u00d7 10 each side",
+        "work": "2 × 10 each side",
         "cue": "Begin bodyweight if the dumbbell is too much.",
         "video": "https://www.youtube.com/watch?v=s0kT80JLCfA"
       },
       {
         "name": "Side Plank",
-        "work": "2 \u00d7 20 sec each side",
+        "work": "2 × 20 sec each side",
         "cue": "Keep hips lifted.",
         "video": "https://www.youtube.com/watch?v=44ND4bOB-T0"
       },
@@ -271,7 +265,7 @@ const PLAN = [
     "date": "2026-08-30",
     "dateLabel": "Sunday, August 30, 2026",
     "title": "Full Body + Endurance",
-    "target": "50\u201365 min",
+    "target": "50–65 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -281,25 +275,25 @@ const PLAN = [
       },
       {
         "name": "Goblet Squat",
-        "work": "2 \u00d7 12",
+        "work": "2 × 12",
         "cue": "Controlled form.",
         "video": "https://www.youtube.com/watch?v=nfX7IFK9UNI"
       },
       {
         "name": "Incline Push-up",
-        "work": "2 \u00d7 10",
+        "work": "2 × 10",
         "cue": "Good body line.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Row",
-        "work": "2 \u00d7 11 each arm",
+        "work": "2 × 11 each arm",
         "cue": "Squeeze back.",
         "video": "https://www.youtube.com/watch?v=EqEOuGFyOgc"
       },
       {
         "name": "Romanian Deadlift",
-        "work": "2 \u00d7 11",
+        "work": "2 × 11",
         "cue": "Hip hinge, not squat.",
         "video": "https://www.youtube.com/watch?v=V8Hdl1FiNt4"
       },
@@ -311,7 +305,7 @@ const PLAN = [
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 35 sec",
+        "work": "2 × 35 sec",
         "cue": "Strong brace.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -328,11 +322,11 @@ const PLAN = [
     "date": "2026-08-31",
     "dateLabel": "Monday, August 31, 2026",
     "title": "Recovery + Mobility",
-    "target": "20\u201330 min",
+    "target": "20–30 min",
     "exercises": [
       {
         "name": "Bicycle",
-        "work": "15\u201320 min VERY easy or family walk",
+        "work": "15–20 min VERY easy or family walk",
         "cue": "Recovery pace only.",
         "video": "https://www.youtube.com/watch?v=rEqRmKAQ5xM"
       },
@@ -349,7 +343,7 @@ const PLAN = [
     "date": "2026-09-01",
     "dateLabel": "Tuesday, September 1, 2026",
     "title": "Upper Body + Abs + Stepper",
-    "target": "35\u201345 min",
+    "target": "35–45 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -359,31 +353,31 @@ const PLAN = [
       },
       {
         "name": "Incline Push-up",
-        "work": "3 \u00d7 12",
+        "work": "3 × 12",
         "cue": "Use bench; lower under control.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Floor Press",
-        "work": "3 \u00d7 12",
-        "cue": "Elbows about 45\u00b0 from body; press smoothly.",
+        "work": "3 × 12",
+        "cue": "Elbows about 45° from body; press smoothly.",
         "video": "https://www.youtube.com/watch?v=uUGDRwge4F8"
       },
       {
         "name": "Dumbbell Shoulder Press",
-        "work": "3 \u00d7 9",
+        "work": "3 × 9",
         "cue": "Brace abs and avoid leaning back.",
         "video": "https://www.youtube.com/watch?v=qEwKCR5JCog"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 40 sec",
+        "work": "2 × 40 sec",
         "cue": "Straight line head to heels. Breathe normally.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
       {
         "name": "Dead Bug",
-        "work": "2 \u00d7 8 each side",
+        "work": "2 × 8 each side",
         "cue": "Slow and controlled.",
         "video": "https://www.youtube.com/watch?v=bxn9FBrt4-A"
       },
@@ -406,7 +400,7 @@ const PLAN = [
     "date": "2026-09-02",
     "dateLabel": "Wednesday, September 2, 2026",
     "title": "Run/Walk + Core",
-    "target": "30\u201338 min",
+    "target": "30–38 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -416,19 +410,19 @@ const PLAN = [
       },
       {
         "name": "Run/Walk",
-        "work": "5-min brisk walk; 90-sec jog / 2-min walk \u00d7 5; 5-min easy walk",
+        "work": "5-min brisk walk; 90-sec jog / 2-min walk × 5; 5-min easy walk",
         "cue": "Jog EASY. Do not sprint. Walking breaks are part of training.",
         "video": "https://www.youtube.com/watch?v=XXYtfpqFo24"
       },
       {
         "name": "Reverse Crunch",
-        "work": "2 \u00d7 12",
+        "work": "2 × 12",
         "cue": "Curl pelvis toward ribs; do not swing.",
         "video": "https://www.youtube.com/watch?v=wtKWBzDwfIM"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 40 sec",
+        "work": "2 × 40 sec",
         "cue": "Brace core while breathing.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -445,7 +439,7 @@ const PLAN = [
     "date": "2026-09-03",
     "dateLabel": "Thursday, September 3, 2026",
     "title": "Back + Arms + Posture",
-    "target": "30\u201340 min",
+    "target": "30–40 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -455,31 +449,25 @@ const PLAN = [
       },
       {
         "name": "Dumbbell Row",
-        "work": "3 \u00d7 11 each arm",
+        "work": "3 × 11 each arm",
         "cue": "Pull elbow toward hip; pause briefly.",
         "video": "https://www.youtube.com/watch?v=EqEOuGFyOgc"
       },
       {
         "name": "Band Row",
-        "work": "3 \u00d7 14",
+        "work": "3 × 14",
         "cue": "Anchor band securely; squeeze shoulder blades.",
         "video": "https://www.youtube.com/watch?v=WkNuYbWZ8g8"
       },
       {
-        "name": "Band Row",
-        "work": "3 \u00d7 14",
-        "cue": "Anchor the band securely; pull toward your torso and squeeze the shoulder blades.",
-        "video": "https://www.youtube.com/watch?v=WkNuYbWZ8g8"
-      },
-      {
         "name": "Hammer Curl",
-        "work": "3 \u00d7 12",
+        "work": "3 × 12",
         "cue": "Palms face inward; elbows stay close to ribs.",
         "video": "https://www.youtube.com/watch?v=TwD-YGVP4Bk"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 40 sec",
+        "work": "2 × 40 sec",
         "cue": "Keep hips level.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -496,7 +484,7 @@ const PLAN = [
     "date": "2026-09-04",
     "dateLabel": "Friday, September 4, 2026",
     "title": "Legs + Bicycle",
-    "target": "35\u201345 min",
+    "target": "35–45 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -506,25 +494,25 @@ const PLAN = [
       },
       {
         "name": "Goblet Squat",
-        "work": "3 \u00d7 13",
+        "work": "3 × 13",
         "cue": "Controlled descent; drive through whole foot.",
         "video": "https://www.youtube.com/watch?v=nfX7IFK9UNI"
       },
       {
         "name": "Romanian Deadlift",
-        "work": "3 \u00d7 12",
+        "work": "3 × 12",
         "cue": "Hinge hips back. Neutral spine. Feel hamstrings.",
         "video": "https://www.youtube.com/watch?v=V8Hdl1FiNt4"
       },
       {
         "name": "Glute Bridge",
-        "work": "3 \u00d7 14",
+        "work": "3 × 14",
         "cue": "Squeeze glutes at top.",
         "video": "https://www.youtube.com/watch?v=zAraUpwz1l4"
       },
       {
         "name": "Calf Raise",
-        "work": "3 \u00d7 18",
+        "work": "3 × 18",
         "cue": "Rise slowly and lower under control.",
         "video": "https://www.youtube.com/watch?v=Xa18jxyeSnM"
       },
@@ -547,7 +535,7 @@ const PLAN = [
     "date": "2026-09-05",
     "dateLabel": "Saturday, September 5, 2026",
     "title": "WFH Power Day: Chest, Shoulders + Six-Pack",
-    "target": "45\u201355 min",
+    "target": "45–55 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -557,43 +545,43 @@ const PLAN = [
       },
       {
         "name": "Incline Push-up",
-        "work": "3 \u00d7 12",
+        "work": "3 × 12",
         "cue": "Use lower bench angle only if form stays strong.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Floor Press",
-        "work": "3 \u00d7 13",
+        "work": "3 × 13",
         "cue": "Controlled lowering; strong press.",
         "video": "https://www.youtube.com/watch?v=uUGDRwge4F8"
       },
       {
         "name": "Dumbbell Shoulder Press",
-        "work": "3 \u00d7 11",
+        "work": "3 × 11",
         "cue": "Brace core.",
         "video": "https://www.youtube.com/watch?v=qEwKCR5JCog"
       },
       {
         "name": "Bench Crunch",
-        "work": "3 \u00d7 14",
+        "work": "3 × 14",
         "cue": "Curl ribs toward pelvis; don't pull your neck.",
         "video": "https://www.youtube.com/watch?v=NIA6kpguG_o"
       },
       {
         "name": "Leg Raise",
-        "work": "3 \u00d7 10",
+        "work": "3 × 10",
         "cue": "Only lower legs as far as you can control.",
         "video": "https://www.youtube.com/watch?v=sY2ZgV2Sj_s"
       },
       {
         "name": "Russian Twist",
-        "work": "3 \u00d7 12 each side",
+        "work": "3 × 12 each side",
         "cue": "Begin bodyweight if the dumbbell is too much.",
         "video": "https://www.youtube.com/watch?v=s0kT80JLCfA"
       },
       {
         "name": "Side Plank",
-        "work": "2 \u00d7 25 sec each side",
+        "work": "2 × 25 sec each side",
         "cue": "Keep hips lifted.",
         "video": "https://www.youtube.com/watch?v=44ND4bOB-T0"
       },
@@ -616,7 +604,7 @@ const PLAN = [
     "date": "2026-09-06",
     "dateLabel": "Sunday, September 6, 2026",
     "title": "Full Body + Endurance",
-    "target": "50\u201365 min",
+    "target": "50–65 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -626,25 +614,25 @@ const PLAN = [
       },
       {
         "name": "Goblet Squat",
-        "work": "3 \u00d7 14",
+        "work": "3 × 14",
         "cue": "Controlled form.",
         "video": "https://www.youtube.com/watch?v=nfX7IFK9UNI"
       },
       {
         "name": "Incline Push-up",
-        "work": "3 \u00d7 12",
+        "work": "3 × 12",
         "cue": "Good body line.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Row",
-        "work": "3 \u00d7 12 each arm",
+        "work": "3 × 12 each arm",
         "cue": "Squeeze back.",
         "video": "https://www.youtube.com/watch?v=EqEOuGFyOgc"
       },
       {
         "name": "Romanian Deadlift",
-        "work": "3 \u00d7 13",
+        "work": "3 × 13",
         "cue": "Hip hinge, not squat.",
         "video": "https://www.youtube.com/watch?v=V8Hdl1FiNt4"
       },
@@ -656,7 +644,7 @@ const PLAN = [
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 45 sec",
+        "work": "2 × 45 sec",
         "cue": "Strong brace.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -673,11 +661,11 @@ const PLAN = [
     "date": "2026-09-07",
     "dateLabel": "Monday, September 7, 2026",
     "title": "Recovery + Mobility",
-    "target": "20\u201330 min",
+    "target": "20–30 min",
     "exercises": [
       {
         "name": "Bicycle",
-        "work": "15\u201320 min VERY easy or family walk",
+        "work": "15–20 min VERY easy or family walk",
         "cue": "Recovery pace only.",
         "video": "https://www.youtube.com/watch?v=rEqRmKAQ5xM"
       },
@@ -694,7 +682,7 @@ const PLAN = [
     "date": "2026-09-08",
     "dateLabel": "Tuesday, September 8, 2026",
     "title": "Upper Body + Abs + Stepper",
-    "target": "35\u201345 min",
+    "target": "35–45 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -704,31 +692,31 @@ const PLAN = [
       },
       {
         "name": "Incline Push-up",
-        "work": "3 \u00d7 14",
+        "work": "3 × 14",
         "cue": "Use bench; lower under control.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Floor Press",
-        "work": "3 \u00d7 14",
-        "cue": "Elbows about 45\u00b0 from body; press smoothly.",
+        "work": "3 × 14",
+        "cue": "Elbows about 45° from body; press smoothly.",
         "video": "https://www.youtube.com/watch?v=uUGDRwge4F8"
       },
       {
         "name": "Dumbbell Shoulder Press",
-        "work": "3 \u00d7 10",
+        "work": "3 × 10",
         "cue": "Brace abs and avoid leaning back.",
         "video": "https://www.youtube.com/watch?v=qEwKCR5JCog"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 50 sec",
+        "work": "2 × 50 sec",
         "cue": "Straight line head to heels. Breathe normally.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
       {
         "name": "Dead Bug",
-        "work": "2 \u00d7 9 each side",
+        "work": "2 × 9 each side",
         "cue": "Slow and controlled.",
         "video": "https://www.youtube.com/watch?v=bxn9FBrt4-A"
       },
@@ -751,7 +739,7 @@ const PLAN = [
     "date": "2026-09-09",
     "dateLabel": "Wednesday, September 9, 2026",
     "title": "Run/Walk + Core",
-    "target": "30\u201338 min",
+    "target": "30–38 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -761,19 +749,19 @@ const PLAN = [
       },
       {
         "name": "Run/Walk",
-        "work": "5-min brisk walk; 3-min jog / 2-min walk \u00d7 4; 5-min easy walk",
+        "work": "5-min brisk walk; 3-min jog / 2-min walk × 4; 5-min easy walk",
         "cue": "Jog EASY. Do not sprint. Walking breaks are part of training.",
         "video": "https://www.youtube.com/watch?v=XXYtfpqFo24"
       },
       {
         "name": "Reverse Crunch",
-        "work": "3 \u00d7 14",
+        "work": "3 × 14",
         "cue": "Curl pelvis toward ribs; do not swing.",
         "video": "https://www.youtube.com/watch?v=wtKWBzDwfIM"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 50 sec",
+        "work": "2 × 50 sec",
         "cue": "Brace core while breathing.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -790,7 +778,7 @@ const PLAN = [
     "date": "2026-09-10",
     "dateLabel": "Thursday, September 10, 2026",
     "title": "Back + Arms + Posture",
-    "target": "30\u201340 min",
+    "target": "30–40 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -800,31 +788,25 @@ const PLAN = [
       },
       {
         "name": "Dumbbell Row",
-        "work": "3 \u00d7 12 each arm",
+        "work": "3 × 12 each arm",
         "cue": "Pull elbow toward hip; pause briefly.",
         "video": "https://www.youtube.com/watch?v=EqEOuGFyOgc"
       },
       {
         "name": "Band Row",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Anchor band securely; squeeze shoulder blades.",
         "video": "https://www.youtube.com/watch?v=WkNuYbWZ8g8"
       },
       {
-        "name": "Band Row",
-        "work": "3 \u00d7 16",
-        "cue": "Anchor the band securely; pull toward your torso and squeeze the shoulder blades.",
-        "video": "https://www.youtube.com/watch?v=WkNuYbWZ8g8"
-      },
-      {
         "name": "Hammer Curl",
-        "work": "3 \u00d7 14",
+        "work": "3 × 14",
         "cue": "Palms face inward; elbows stay close to ribs.",
         "video": "https://www.youtube.com/watch?v=TwD-YGVP4Bk"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 50 sec",
+        "work": "2 × 50 sec",
         "cue": "Keep hips level.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -841,7 +823,7 @@ const PLAN = [
     "date": "2026-09-11",
     "dateLabel": "Friday, September 11, 2026",
     "title": "Legs + Bicycle",
-    "target": "35\u201345 min",
+    "target": "35–45 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -851,25 +833,25 @@ const PLAN = [
       },
       {
         "name": "Goblet Squat",
-        "work": "3 \u00d7 15",
+        "work": "3 × 15",
         "cue": "Controlled descent; drive through whole foot.",
         "video": "https://www.youtube.com/watch?v=nfX7IFK9UNI"
       },
       {
         "name": "Romanian Deadlift",
-        "work": "3 \u00d7 14",
+        "work": "3 × 14",
         "cue": "Hinge hips back. Neutral spine. Feel hamstrings.",
         "video": "https://www.youtube.com/watch?v=V8Hdl1FiNt4"
       },
       {
         "name": "Glute Bridge",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Squeeze glutes at top.",
         "video": "https://www.youtube.com/watch?v=zAraUpwz1l4"
       },
       {
         "name": "Calf Raise",
-        "work": "3 \u00d7 21",
+        "work": "3 × 21",
         "cue": "Rise slowly and lower under control.",
         "video": "https://www.youtube.com/watch?v=Xa18jxyeSnM"
       },
@@ -892,7 +874,7 @@ const PLAN = [
     "date": "2026-09-12",
     "dateLabel": "Saturday, September 12, 2026",
     "title": "WFH Power Day: Chest, Shoulders + Six-Pack",
-    "target": "45\u201355 min",
+    "target": "45–55 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -902,43 +884,43 @@ const PLAN = [
       },
       {
         "name": "Incline Push-up",
-        "work": "3 \u00d7 14",
+        "work": "3 × 14",
         "cue": "Use lower bench angle only if form stays strong.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Floor Press",
-        "work": "3 \u00d7 15",
+        "work": "3 × 15",
         "cue": "Controlled lowering; strong press.",
         "video": "https://www.youtube.com/watch?v=uUGDRwge4F8"
       },
       {
         "name": "Dumbbell Shoulder Press",
-        "work": "3 \u00d7 13",
+        "work": "3 × 13",
         "cue": "Brace core.",
         "video": "https://www.youtube.com/watch?v=qEwKCR5JCog"
       },
       {
         "name": "Bench Crunch",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Curl ribs toward pelvis; don't pull your neck.",
         "video": "https://www.youtube.com/watch?v=NIA6kpguG_o"
       },
       {
         "name": "Leg Raise",
-        "work": "3 \u00d7 12",
+        "work": "3 × 12",
         "cue": "Only lower legs as far as you can control.",
         "video": "https://www.youtube.com/watch?v=sY2ZgV2Sj_s"
       },
       {
         "name": "Russian Twist",
-        "work": "3 \u00d7 14 each side",
+        "work": "3 × 14 each side",
         "cue": "Begin bodyweight if the dumbbell is too much.",
         "video": "https://www.youtube.com/watch?v=s0kT80JLCfA"
       },
       {
         "name": "Side Plank",
-        "work": "2 \u00d7 30 sec each side",
+        "work": "2 × 30 sec each side",
         "cue": "Keep hips lifted.",
         "video": "https://www.youtube.com/watch?v=44ND4bOB-T0"
       },
@@ -961,7 +943,7 @@ const PLAN = [
     "date": "2026-09-13",
     "dateLabel": "Sunday, September 13, 2026",
     "title": "Full Body + Endurance",
-    "target": "50\u201365 min",
+    "target": "50–65 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -971,25 +953,25 @@ const PLAN = [
       },
       {
         "name": "Goblet Squat",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Controlled form.",
         "video": "https://www.youtube.com/watch?v=nfX7IFK9UNI"
       },
       {
         "name": "Incline Push-up",
-        "work": "3 \u00d7 14",
+        "work": "3 × 14",
         "cue": "Good body line.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Row",
-        "work": "3 \u00d7 13 each arm",
+        "work": "3 × 13 each arm",
         "cue": "Squeeze back.",
         "video": "https://www.youtube.com/watch?v=EqEOuGFyOgc"
       },
       {
         "name": "Romanian Deadlift",
-        "work": "3 \u00d7 15",
+        "work": "3 × 15",
         "cue": "Hip hinge, not squat.",
         "video": "https://www.youtube.com/watch?v=V8Hdl1FiNt4"
       },
@@ -1001,7 +983,7 @@ const PLAN = [
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 55 sec",
+        "work": "2 × 55 sec",
         "cue": "Strong brace.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -1018,11 +1000,11 @@ const PLAN = [
     "date": "2026-09-14",
     "dateLabel": "Monday, September 14, 2026",
     "title": "Recovery + Mobility",
-    "target": "20\u201330 min",
+    "target": "20–30 min",
     "exercises": [
       {
         "name": "Bicycle",
-        "work": "15\u201320 min VERY easy or family walk",
+        "work": "15–20 min VERY easy or family walk",
         "cue": "Recovery pace only.",
         "video": "https://www.youtube.com/watch?v=rEqRmKAQ5xM"
       },
@@ -1039,7 +1021,7 @@ const PLAN = [
     "date": "2026-09-15",
     "dateLabel": "Tuesday, September 15, 2026",
     "title": "Upper Body + Abs + Stepper",
-    "target": "35\u201345 min",
+    "target": "35–45 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -1049,31 +1031,31 @@ const PLAN = [
       },
       {
         "name": "Incline Push-up",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Use bench; lower under control.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Floor Press",
-        "work": "3 \u00d7 16",
-        "cue": "Elbows about 45\u00b0 from body; press smoothly.",
+        "work": "3 × 16",
+        "cue": "Elbows about 45° from body; press smoothly.",
         "video": "https://www.youtube.com/watch?v=uUGDRwge4F8"
       },
       {
         "name": "Dumbbell Shoulder Press",
-        "work": "3 \u00d7 11",
+        "work": "3 × 11",
         "cue": "Brace abs and avoid leaning back.",
         "video": "https://www.youtube.com/watch?v=qEwKCR5JCog"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 60 sec",
+        "work": "2 × 60 sec",
         "cue": "Straight line head to heels. Breathe normally.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
       {
         "name": "Dead Bug",
-        "work": "2 \u00d7 10 each side",
+        "work": "2 × 10 each side",
         "cue": "Slow and controlled.",
         "video": "https://www.youtube.com/watch?v=bxn9FBrt4-A"
       },
@@ -1096,7 +1078,7 @@ const PLAN = [
     "date": "2026-09-16",
     "dateLabel": "Wednesday, September 16, 2026",
     "title": "Run/Walk + Core",
-    "target": "30\u201338 min",
+    "target": "30–38 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -1106,19 +1088,19 @@ const PLAN = [
       },
       {
         "name": "Run/Walk",
-        "work": "5-min brisk walk; 5-min jog / 2-min walk \u00d7 3; 5-min easy walk",
+        "work": "5-min brisk walk; 5-min jog / 2-min walk × 3; 5-min easy walk",
         "cue": "Jog EASY. Do not sprint. Walking breaks are part of training.",
         "video": "https://www.youtube.com/watch?v=XXYtfpqFo24"
       },
       {
         "name": "Reverse Crunch",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Curl pelvis toward ribs; do not swing.",
         "video": "https://www.youtube.com/watch?v=wtKWBzDwfIM"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 60 sec",
+        "work": "2 × 60 sec",
         "cue": "Brace core while breathing.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -1135,7 +1117,7 @@ const PLAN = [
     "date": "2026-09-17",
     "dateLabel": "Thursday, September 17, 2026",
     "title": "Back + Arms + Posture",
-    "target": "30\u201340 min",
+    "target": "30–40 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -1145,31 +1127,25 @@ const PLAN = [
       },
       {
         "name": "Dumbbell Row",
-        "work": "3 \u00d7 13 each arm",
+        "work": "3 × 13 each arm",
         "cue": "Pull elbow toward hip; pause briefly.",
         "video": "https://www.youtube.com/watch?v=EqEOuGFyOgc"
       },
       {
         "name": "Band Row",
-        "work": "3 \u00d7 18",
+        "work": "3 × 18",
         "cue": "Anchor band securely; squeeze shoulder blades.",
         "video": "https://www.youtube.com/watch?v=WkNuYbWZ8g8"
       },
       {
-        "name": "Band Row",
-        "work": "3 \u00d7 18",
-        "cue": "Anchor the band securely; pull toward your torso and squeeze the shoulder blades.",
-        "video": "https://www.youtube.com/watch?v=WkNuYbWZ8g8"
-      },
-      {
         "name": "Hammer Curl",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Palms face inward; elbows stay close to ribs.",
         "video": "https://www.youtube.com/watch?v=TwD-YGVP4Bk"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 60 sec",
+        "work": "2 × 60 sec",
         "cue": "Keep hips level.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -1186,7 +1162,7 @@ const PLAN = [
     "date": "2026-09-18",
     "dateLabel": "Friday, September 18, 2026",
     "title": "Legs + Bicycle",
-    "target": "35\u201345 min",
+    "target": "35–45 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -1196,25 +1172,25 @@ const PLAN = [
       },
       {
         "name": "Goblet Squat",
-        "work": "3 \u00d7 17",
+        "work": "3 × 17",
         "cue": "Controlled descent; drive through whole foot.",
         "video": "https://www.youtube.com/watch?v=nfX7IFK9UNI"
       },
       {
         "name": "Romanian Deadlift",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Hinge hips back. Neutral spine. Feel hamstrings.",
         "video": "https://www.youtube.com/watch?v=V8Hdl1FiNt4"
       },
       {
         "name": "Glute Bridge",
-        "work": "3 \u00d7 18",
+        "work": "3 × 18",
         "cue": "Squeeze glutes at top.",
         "video": "https://www.youtube.com/watch?v=zAraUpwz1l4"
       },
       {
         "name": "Calf Raise",
-        "work": "3 \u00d7 24",
+        "work": "3 × 24",
         "cue": "Rise slowly and lower under control.",
         "video": "https://www.youtube.com/watch?v=Xa18jxyeSnM"
       },
@@ -1237,7 +1213,7 @@ const PLAN = [
     "date": "2026-09-19",
     "dateLabel": "Saturday, September 19, 2026",
     "title": "WFH Power Day: Chest, Shoulders + Six-Pack",
-    "target": "45\u201355 min",
+    "target": "45–55 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -1247,43 +1223,43 @@ const PLAN = [
       },
       {
         "name": "Incline Push-up",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Use lower bench angle only if form stays strong.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Floor Press",
-        "work": "3 \u00d7 17",
+        "work": "3 × 17",
         "cue": "Controlled lowering; strong press.",
         "video": "https://www.youtube.com/watch?v=uUGDRwge4F8"
       },
       {
         "name": "Dumbbell Shoulder Press",
-        "work": "3 \u00d7 15",
+        "work": "3 × 15",
         "cue": "Brace core.",
         "video": "https://www.youtube.com/watch?v=qEwKCR5JCog"
       },
       {
         "name": "Bench Crunch",
-        "work": "3 \u00d7 18",
+        "work": "3 × 18",
         "cue": "Curl ribs toward pelvis; don't pull your neck.",
         "video": "https://www.youtube.com/watch?v=NIA6kpguG_o"
       },
       {
         "name": "Leg Raise",
-        "work": "3 \u00d7 14",
+        "work": "3 × 14",
         "cue": "Only lower legs as far as you can control.",
         "video": "https://www.youtube.com/watch?v=sY2ZgV2Sj_s"
       },
       {
         "name": "Russian Twist",
-        "work": "3 \u00d7 16 each side",
+        "work": "3 × 16 each side",
         "cue": "Begin bodyweight if the dumbbell is too much.",
         "video": "https://www.youtube.com/watch?v=s0kT80JLCfA"
       },
       {
         "name": "Side Plank",
-        "work": "2 \u00d7 35 sec each side",
+        "work": "2 × 35 sec each side",
         "cue": "Keep hips lifted.",
         "video": "https://www.youtube.com/watch?v=44ND4bOB-T0"
       },
@@ -1306,7 +1282,7 @@ const PLAN = [
     "date": "2026-09-20",
     "dateLabel": "Sunday, September 20, 2026",
     "title": "Full Body + Endurance",
-    "target": "50\u201365 min",
+    "target": "50–65 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -1316,25 +1292,25 @@ const PLAN = [
       },
       {
         "name": "Goblet Squat",
-        "work": "3 \u00d7 18",
+        "work": "3 × 18",
         "cue": "Controlled form.",
         "video": "https://www.youtube.com/watch?v=nfX7IFK9UNI"
       },
       {
         "name": "Incline Push-up",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Good body line.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Row",
-        "work": "3 \u00d7 14 each arm",
+        "work": "3 × 14 each arm",
         "cue": "Squeeze back.",
         "video": "https://www.youtube.com/watch?v=EqEOuGFyOgc"
       },
       {
         "name": "Romanian Deadlift",
-        "work": "3 \u00d7 17",
+        "work": "3 × 17",
         "cue": "Hip hinge, not squat.",
         "video": "https://www.youtube.com/watch?v=V8Hdl1FiNt4"
       },
@@ -1346,7 +1322,7 @@ const PLAN = [
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 65 sec",
+        "work": "2 × 65 sec",
         "cue": "Strong brace.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
@@ -1363,11 +1339,11 @@ const PLAN = [
     "date": "2026-09-21",
     "dateLabel": "Monday, September 21, 2026",
     "title": "Recovery + Mobility",
-    "target": "20\u201330 min",
+    "target": "20–30 min",
     "exercises": [
       {
         "name": "Bicycle",
-        "work": "15\u201320 min VERY easy or family walk",
+        "work": "15–20 min VERY easy or family walk",
         "cue": "Recovery pace only.",
         "video": "https://www.youtube.com/watch?v=rEqRmKAQ5xM"
       },
@@ -1384,7 +1360,7 @@ const PLAN = [
     "date": "2026-09-22",
     "dateLabel": "Tuesday, September 22, 2026",
     "title": "Upper Body + Abs + Stepper",
-    "target": "35\u201345 min",
+    "target": "35–45 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -1394,31 +1370,31 @@ const PLAN = [
       },
       {
         "name": "Incline Push-up",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Use bench; lower under control.",
         "video": "https://www.youtube.com/watch?v=0JUrOH--Kdk"
       },
       {
         "name": "Dumbbell Floor Press",
-        "work": "3 \u00d7 16",
-        "cue": "Elbows about 45\u00b0 from body; press smoothly.",
+        "work": "3 × 16",
+        "cue": "Elbows about 45° from body; press smoothly.",
         "video": "https://www.youtube.com/watch?v=uUGDRwge4F8"
       },
       {
         "name": "Dumbbell Shoulder Press",
-        "work": "3 \u00d7 11",
+        "work": "3 × 11",
         "cue": "Brace abs and avoid leaning back.",
         "video": "https://www.youtube.com/watch?v=qEwKCR5JCog"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 60 sec",
+        "work": "2 × 60 sec",
         "cue": "Straight line head to heels. Breathe normally.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
       {
         "name": "Dead Bug",
-        "work": "2 \u00d7 10 each side",
+        "work": "2 × 10 each side",
         "cue": "Slow and controlled.",
         "video": "https://www.youtube.com/watch?v=bxn9FBrt4-A"
       },
@@ -1441,7 +1417,7 @@ const PLAN = [
     "date": "2026-09-23",
     "dateLabel": "Wednesday, September 23, 2026",
     "title": "Run/Walk + Core",
-    "target": "30\u201338 min",
+    "target": "30–38 min",
     "exercises": [
       {
         "name": "Warm-up",
@@ -1451,19 +1427,19 @@ const PLAN = [
       },
       {
         "name": "Run/Walk",
-        "work": "5-min brisk walk; 5-min jog / 2-min walk \u00d7 3; 5-min easy walk",
+        "work": "5-min brisk walk; 5-min jog / 2-min walk × 3; 5-min easy walk",
         "cue": "Jog EASY. Do not sprint. Walking breaks are part of training.",
         "video": "https://www.youtube.com/watch?v=XXYtfpqFo24"
       },
       {
         "name": "Reverse Crunch",
-        "work": "3 \u00d7 16",
+        "work": "3 × 16",
         "cue": "Curl pelvis toward ribs; do not swing.",
         "video": "https://www.youtube.com/watch?v=wtKWBzDwfIM"
       },
       {
         "name": "Plank",
-        "work": "2 \u00d7 60 sec",
+        "work": "2 × 60 sec",
         "cue": "Brace core while breathing.",
         "video": "https://www.youtube.com/watch?v=mwlp75MS6Rg"
       },
