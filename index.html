@@ -11,12 +11,20 @@
 <body>
 <header class="hero">
   <div>
-    <div class="eyebrow">AUG 24 → SEP 22, 2026</div>
+    <div class="eyebrow">AUG 25 → SEP 23, 2026</div>
     <h1>30-Day Fitness Reset</h1>
     <p>Muscle • Cardio • 2-Mile Foundation • Six-Pack Core</p>
   </div>
   <div class="ring"><span id="progressPct">0%</span></div>
 </header>
+
+<div class="authbar">
+  <div id="authStatus">Starting…</div>
+  <div class="auth-actions">
+    <button id="signInBtn">Sign in / Sync</button>
+    <button id="signOutBtn" class="hidden">Sign out</button>
+  </div>
+</div>
 
 <nav class="tabs">
   <button data-view="today" class="active">Today</button>
@@ -30,14 +38,36 @@
 <section id="progressView" class="view hidden"></section>
 </main>
 
+<div id="authModal" class="modal hidden" aria-hidden="true">
+  <div class="modal-card">
+    <button id="closeAuth" class="modal-close" aria-label="Close">×</button>
+    <div class="eyebrow">CLOUD SYNC</div>
+    <h2>Sign in to your tracker</h2>
+    <p class="muted">Use the same account on your iPhone and Mac. Your existing local progress is preserved and synced after sign-in.</p>
+
+    <label>Email
+      <input id="authEmail" type="email" autocomplete="email" placeholder="you@example.com">
+    </label>
+    <label>Password
+      <input id="authPassword" type="password" autocomplete="current-password" placeholder="At least 6 characters">
+    </label>
+
+    <div id="authMessage" class="auth-message"></div>
+    <button id="loginAction" class="complete">SIGN IN</button>
+    <button id="createAction" class="secondary">CREATE ACCOUNT</button>
+  </div>
+</div>
+
 <footer>
   <p>Train with control. Sharp pain, chest pain, faintness or unusual shortness of breath = stop and seek medical guidance as appropriate.</p>
 </footer>
 
 <script src="plan.js"></script>
-<script src="app.js"></script>
+<script type="module" src="app.js"></script>
 <script>
-if ('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./sw.js').catch(console.error);
+}
 </script>
 </body>
 </html>
