@@ -1,8 +1,8 @@
 const PLAN = [
   {
     "day": 1,
-    "date": "2026-08-24",
-    "dateLabel": "Monday, August 24, 2026",
+    "date": "2026-08-25",
+    "dateLabel": "Tuesday, August 25, 2026",
     "title": "Full-Body Reset + Easy Cardio",
     "target": "25\u201330 min",
     "exercises": [
@@ -58,8 +58,8 @@ const PLAN = [
   },
   {
     "day": 2,
-    "date": "2026-08-25",
-    "dateLabel": "Tuesday, August 25, 2026",
+    "date": "2026-08-26",
+    "dateLabel": "Wednesday, August 26, 2026",
     "title": "Run/Walk + Core",
     "target": "30\u201338 min",
     "exercises": [
@@ -97,8 +97,8 @@ const PLAN = [
   },
   {
     "day": 3,
-    "date": "2026-08-26",
-    "dateLabel": "Wednesday, August 26, 2026",
+    "date": "2026-08-27",
+    "dateLabel": "Thursday, August 27, 2026",
     "title": "Back + Arms + Posture",
     "target": "30\u201340 min",
     "exercises": [
@@ -148,8 +148,8 @@ const PLAN = [
   },
   {
     "day": 4,
-    "date": "2026-08-27",
-    "dateLabel": "Thursday, August 27, 2026",
+    "date": "2026-08-28",
+    "dateLabel": "Friday, August 28, 2026",
     "title": "Legs + Bicycle",
     "target": "35\u201345 min",
     "exercises": [
@@ -199,8 +199,8 @@ const PLAN = [
   },
   {
     "day": 5,
-    "date": "2026-08-28",
-    "dateLabel": "Friday, August 28, 2026",
+    "date": "2026-08-29",
+    "dateLabel": "Saturday, August 29, 2026",
     "title": "WFH Power Day: Chest, Shoulders + Six-Pack",
     "target": "45\u201355 min",
     "exercises": [
@@ -268,8 +268,8 @@ const PLAN = [
   },
   {
     "day": 6,
-    "date": "2026-08-29",
-    "dateLabel": "Saturday, August 29, 2026",
+    "date": "2026-08-30",
+    "dateLabel": "Sunday, August 30, 2026",
     "title": "Full Body + Endurance",
     "target": "50\u201365 min",
     "exercises": [
@@ -325,8 +325,8 @@ const PLAN = [
   },
   {
     "day": 7,
-    "date": "2026-08-30",
-    "dateLabel": "Sunday, August 30, 2026",
+    "date": "2026-08-31",
+    "dateLabel": "Monday, August 31, 2026",
     "title": "Recovery + Mobility",
     "target": "20\u201330 min",
     "exercises": [
@@ -346,8 +346,8 @@ const PLAN = [
   },
   {
     "day": 8,
-    "date": "2026-08-31",
-    "dateLabel": "Monday, August 31, 2026",
+    "date": "2026-09-01",
+    "dateLabel": "Tuesday, September 1, 2026",
     "title": "Upper Body + Abs + Stepper",
     "target": "35\u201345 min",
     "exercises": [
@@ -403,8 +403,8 @@ const PLAN = [
   },
   {
     "day": 9,
-    "date": "2026-09-01",
-    "dateLabel": "Tuesday, September 1, 2026",
+    "date": "2026-09-02",
+    "dateLabel": "Wednesday, September 2, 2026",
     "title": "Run/Walk + Core",
     "target": "30\u201338 min",
     "exercises": [
@@ -442,8 +442,8 @@ const PLAN = [
   },
   {
     "day": 10,
-    "date": "2026-09-02",
-    "dateLabel": "Wednesday, September 2, 2026",
+    "date": "2026-09-03",
+    "dateLabel": "Thursday, September 3, 2026",
     "title": "Back + Arms + Posture",
     "target": "30\u201340 min",
     "exercises": [
@@ -493,8 +493,8 @@ const PLAN = [
   },
   {
     "day": 11,
-    "date": "2026-09-03",
-    "dateLabel": "Thursday, September 3, 2026",
+    "date": "2026-09-04",
+    "dateLabel": "Friday, September 4, 2026",
     "title": "Legs + Bicycle",
     "target": "35\u201345 min",
     "exercises": [
@@ -544,8 +544,8 @@ const PLAN = [
   },
   {
     "day": 12,
-    "date": "2026-09-04",
-    "dateLabel": "Friday, September 4, 2026",
+    "date": "2026-09-05",
+    "dateLabel": "Saturday, September 5, 2026",
     "title": "WFH Power Day: Chest, Shoulders + Six-Pack",
     "target": "45\u201355 min",
     "exercises": [
@@ -613,8 +613,8 @@ const PLAN = [
   },
   {
     "day": 13,
-    "date": "2026-09-05",
-    "dateLabel": "Saturday, September 5, 2026",
+    "date": "2026-09-06",
+    "dateLabel": "Sunday, September 6, 2026",
     "title": "Full Body + Endurance",
     "target": "50\u201365 min",
     "exercises": [
@@ -670,8 +670,8 @@ const PLAN = [
   },
   {
     "day": 14,
-    "date": "2026-09-06",
-    "dateLabel": "Sunday, September 6, 2026",
+    "date": "2026-09-07",
+    "dateLabel": "Monday, September 7, 2026",
     "title": "Recovery + Mobility",
     "target": "20\u201330 min",
     "exercises": [
@@ -691,8 +691,8 @@ const PLAN = [
   },
   {
     "day": 15,
-    "date": "2026-09-07",
-    "dateLabel": "Monday, September 7, 2026",
+    "date": "2026-09-08",
+    "dateLabel": "Tuesday, September 8, 2026",
     "title": "Upper Body + Abs + Stepper",
     "target": "35\u201345 min",
     "exercises": [
@@ -748,8 +748,8 @@ const PLAN = [
   },
   {
     "day": 16,
-    "date": "2026-09-08",
-    "dateLabel": "Tuesday, September 8, 2026",
+    "date": "2026-09-09",
+    "dateLabel": "Wednesday, September 9, 2026",
     "title": "Run/Walk + Core",
     "target": "30\u201338 min",
     "exercises": [
@@ -787,8 +787,8 @@ const PLAN = [
   },
   {
     "day": 17,
-    "date": "2026-09-09",
-    "dateLabel": "Wednesday, September 9, 2026",
+    "date": "2026-09-10",
+    "dateLabel": "Thursday, September 10, 2026",
     "title": "Back + Arms + Posture",
     "target": "30\u201340 min",
     "exercises": [
@@ -838,8 +838,8 @@ const PLAN = [
   },
   {
     "day": 18,
-    "date": "2026-09-10",
-    "dateLabel": "Thursday, September 10, 2026",
+    "date": "2026-09-11",
+    "dateLabel": "Friday, September 11, 2026",
     "title": "Legs + Bicycle",
     "target": "35\u201345 min",
     "exercises": [
@@ -889,8 +889,8 @@ const PLAN = [
   },
   {
     "day": 19,
-    "date": "2026-09-11",
-    "dateLabel": "Friday, September 11, 2026",
+    "date": "2026-09-12",
+    "dateLabel": "Saturday, September 12, 2026",
     "title": "WFH Power Day: Chest, Shoulders + Six-Pack",
     "target": "45\u201355 min",
     "exercises": [
@@ -958,8 +958,8 @@ const PLAN = [
   },
   {
     "day": 20,
-    "date": "2026-09-12",
-    "dateLabel": "Saturday, September 12, 2026",
+    "date": "2026-09-13",
+    "dateLabel": "Sunday, September 13, 2026",
     "title": "Full Body + Endurance",
     "target": "50\u201365 min",
     "exercises": [
@@ -1015,8 +1015,8 @@ const PLAN = [
   },
   {
     "day": 21,
-    "date": "2026-09-13",
-    "dateLabel": "Sunday, September 13, 2026",
+    "date": "2026-09-14",
+    "dateLabel": "Monday, September 14, 2026",
     "title": "Recovery + Mobility",
     "target": "20\u201330 min",
     "exercises": [
@@ -1036,8 +1036,8 @@ const PLAN = [
   },
   {
     "day": 22,
-    "date": "2026-09-14",
-    "dateLabel": "Monday, September 14, 2026",
+    "date": "2026-09-15",
+    "dateLabel": "Tuesday, September 15, 2026",
     "title": "Upper Body + Abs + Stepper",
     "target": "35\u201345 min",
     "exercises": [
@@ -1093,8 +1093,8 @@ const PLAN = [
   },
   {
     "day": 23,
-    "date": "2026-09-15",
-    "dateLabel": "Tuesday, September 15, 2026",
+    "date": "2026-09-16",
+    "dateLabel": "Wednesday, September 16, 2026",
     "title": "Run/Walk + Core",
     "target": "30\u201338 min",
     "exercises": [
@@ -1132,8 +1132,8 @@ const PLAN = [
   },
   {
     "day": 24,
-    "date": "2026-09-16",
-    "dateLabel": "Wednesday, September 16, 2026",
+    "date": "2026-09-17",
+    "dateLabel": "Thursday, September 17, 2026",
     "title": "Back + Arms + Posture",
     "target": "30\u201340 min",
     "exercises": [
@@ -1183,8 +1183,8 @@ const PLAN = [
   },
   {
     "day": 25,
-    "date": "2026-09-17",
-    "dateLabel": "Thursday, September 17, 2026",
+    "date": "2026-09-18",
+    "dateLabel": "Friday, September 18, 2026",
     "title": "Legs + Bicycle",
     "target": "35\u201345 min",
     "exercises": [
@@ -1234,8 +1234,8 @@ const PLAN = [
   },
   {
     "day": 26,
-    "date": "2026-09-18",
-    "dateLabel": "Friday, September 18, 2026",
+    "date": "2026-09-19",
+    "dateLabel": "Saturday, September 19, 2026",
     "title": "WFH Power Day: Chest, Shoulders + Six-Pack",
     "target": "45\u201355 min",
     "exercises": [
@@ -1303,8 +1303,8 @@ const PLAN = [
   },
   {
     "day": 27,
-    "date": "2026-09-19",
-    "dateLabel": "Saturday, September 19, 2026",
+    "date": "2026-09-20",
+    "dateLabel": "Sunday, September 20, 2026",
     "title": "Full Body + Endurance",
     "target": "50\u201365 min",
     "exercises": [
@@ -1360,8 +1360,8 @@ const PLAN = [
   },
   {
     "day": 28,
-    "date": "2026-09-20",
-    "dateLabel": "Sunday, September 20, 2026",
+    "date": "2026-09-21",
+    "dateLabel": "Monday, September 21, 2026",
     "title": "Recovery + Mobility",
     "target": "20\u201330 min",
     "exercises": [
@@ -1381,8 +1381,8 @@ const PLAN = [
   },
   {
     "day": 29,
-    "date": "2026-09-21",
-    "dateLabel": "Monday, September 21, 2026",
+    "date": "2026-09-22",
+    "dateLabel": "Tuesday, September 22, 2026",
     "title": "Upper Body + Abs + Stepper",
     "target": "35\u201345 min",
     "exercises": [
@@ -1438,8 +1438,8 @@ const PLAN = [
   },
   {
     "day": 30,
-    "date": "2026-09-22",
-    "dateLabel": "Tuesday, September 22, 2026",
+    "date": "2026-09-23",
+    "dateLabel": "Wednesday, September 23, 2026",
     "title": "Run/Walk + Core",
     "target": "30\u201338 min",
     "exercises": [
