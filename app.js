@@ -19,7 +19,7 @@ import {
 // Firebase web config is intentionally client-side.
 // Access to workout data is protected by Firebase Authentication + Firestore Security Rules.
 const firebaseConfig = {
-  apiKey: "AIzaSyCkQ2ou_Bbmk8N-c5NZL36zLFkeQT-0SwM",
+  apiKey: "AIzaSyCkQ2ou_Bbmk8N-c5NZL36zLFkeQT-OSwM",
   authDomain: "gymverge-workout.firebaseapp.com",
   projectId: "gymverge-workout",
   storageBucket: "gymverge-workout.firebasestorage.app",
