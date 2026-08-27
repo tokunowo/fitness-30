@@ -56,10 +56,23 @@ function saveLocal() {
   localStorage.setItem(KEY, JSON.stringify(state));
 }
 
+function defaultSession() {
+  return { running: false, startedAt: null, accumulatedMs: 0, lastCompletedMs: 0 };
+}
+function defaultInterval() {
+  return { config: [], transitionSec: 3, running: false, startedAt: null, accumulatedMs: 0, lastCompletedMs: 0 };
+}
 function dayState(dayNumber) {
   state.days ??= {};
   state.days[dayNumber] ??= { checks: {}, done: false, feel: "", notes: "" };
-  return state.days[dayNumber];
+  const ds = state.days[dayNumber];
+  ds.checks ??= {};
+  ds.done ??= false;
+  ds.feel ??= "";
+  ds.notes ??= "";
+  ds.session ??= defaultSession();
+  ds.interval ??= defaultInterval();
+  return ds;
 }
 
 function currentDayIndex() {
@@ -192,6 +205,150 @@ function scheduleSave() {
   syncTimer = setTimeout(pushCloudProgress, 450);
 }
 
+
+function formatTime(ms) {
+  ms = Math.max(0, Number(ms || 0));
+  const totalSec = Math.floor(ms / 1000);
+  const h = Math.floor(totalSec / 3600);
+  const m = Math.floor((totalSec % 3600) / 60);
+  const s = totalSec % 60;
+  return h > 0
+    ? `${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`
+    : `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+}
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (ch) => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;"
+  })[ch]);
+}
+function sessionElapsedMs(ds, now = Date.now()) {
+  const s = ds.session || defaultSession();
+  return Math.max(0, Number(s.accumulatedMs || 0) +
+    (s.running && s.startedAt ? now - Number(s.startedAt) : 0));
+}
+window.startWorkout = (dayNumber) => {
+  const ds = dayState(dayNumber);
+  if (!ds.session.running) {
+    ds.session.running = true;
+    ds.session.startedAt = Date.now();
+    scheduleSave();
+    render();
+  }
+};
+window.pauseWorkout = (dayNumber) => {
+  const ds = dayState(dayNumber);
+  if (ds.session.running) {
+    ds.session.accumulatedMs = sessionElapsedMs(ds);
+    ds.session.running = false;
+    ds.session.startedAt = null;
+    scheduleSave();
+    render();
+  }
+};
+window.resetWorkoutTimer = (dayNumber) => {
+  if (!confirm("Reset today's workout timer to 00:00? Your exercise checkmarks will not be changed.")) return;
+  dayState(dayNumber).session = defaultSession();
+  scheduleSave();
+  render();
+};
+
+function runWalkPreset(dayNumber) {
+  const presets = {
+    2:{warm:300,jog:60,walk:90,reps:7,cool:300},
+    9:{warm:300,jog:90,walk:120,reps:5,cool:300},
+    16:{warm:300,jog:180,walk:120,reps:4,cool:300},
+    23:{warm:300,jog:300,walk:120,reps:3,cool:300},
+    30:{warm:300,jog:300,walk:120,reps:3,cool:300}
+  };
+  const p = presets[dayNumber];
+  if (!p) return null;
+  const out = [{label:"Warm-up Walk",durationSec:p.warm}];
+  for (let i=1;i<=p.reps;i++) {
+    out.push({label:`Jog ${i}`,durationSec:p.jog});
+    out.push({label:`Walk ${i}`,durationSec:p.walk});
+  }
+  out.push({label:"Cool-down Walk",durationSec:p.cool});
+  return out;
+}
+function buildPhases(interval) {
+  const config=(interval.config||[]).filter(x=>Number(x.durationSec)>0);
+  const transitionSec=Math.max(0,Math.min(30,Number(interval.transitionSec ?? 3)));
+  const phases=[];
+  config.forEach((step,idx)=>{
+    phases.push({type:"work",label:String(step.label||`Interval ${idx+1}`),durationMs:Number(step.durationSec)*1000});
+    if(idx<config.length-1 && transitionSec>0) phases.push({type:"transition",label:`Next: ${config[idx+1].label||`Interval ${idx+2}`}`,durationMs:transitionSec*1000});
+  });
+  let cursor=0;
+  return phases.map((phase,index)=>{
+    const p={...phase,phaseIndex:index,startMs:cursor,endMs:cursor+phase.durationMs};
+    cursor=p.endMs;
+    return p;
+  });
+}
+function intervalElapsedMs(ds, now=Date.now()) {
+  const t=ds.interval||defaultInterval();
+  return Math.max(0,Number(t.accumulatedMs||0)+(t.running&&t.startedAt?now-Number(t.startedAt):0));
+}
+function intervalSnapshot(ds, now=Date.now()) {
+  const phases=buildPhases(ds.interval);
+  const totalMs=phases.length?phases[phases.length-1].endMs:0;
+  const elapsed=Math.min(intervalElapsedMs(ds,now),totalMs||0);
+  if(!phases.length) return {phases,totalMs,elapsed,phase:null,remainingMs:0,next:null,complete:false,progress:0};
+  if(elapsed>=totalMs) return {phases,totalMs,elapsed,phase:null,remainingMs:0,next:null,complete:true,progress:100};
+  const phase=phases.find(p=>elapsed<p.endMs);
+  const remainingMs=phase.endMs-elapsed;
+  const next=phases[phase.phaseIndex+1]||null;
+  return {phases,totalMs,elapsed,phase,remainingMs,next,complete:false,progress:totalMs?elapsed/totalMs*100:0};
+}
+function setIntervalElapsed(ds, value) {
+  const phases=buildPhases(ds.interval);
+  const max=phases.length?phases[phases.length-1].endMs:0;
+  ds.interval.accumulatedMs=Math.max(0,Math.min(max,Number(value||0)));
+  ds.interval.startedAt=ds.interval.running?Date.now():null;
+}
+window.loadRunPreset=(dayNumber)=>{
+  const preset=runWalkPreset(dayNumber); if(!preset)return;
+  const ds=dayState(dayNumber);
+  ds.interval={...defaultInterval(),config:preset,transitionSec:3};
+  scheduleSave(); render();
+};
+window.addIntervalRow=(dayNumber)=>{
+  const ds=dayState(dayNumber);
+  ds.interval.config.push({label:`Interval ${ds.interval.config.length+1}`,durationSec:60});
+  scheduleSave(); render();
+};
+window.removeIntervalRow=(dayNumber,index)=>{
+  const ds=dayState(dayNumber); ds.interval.config.splice(index,1);
+  ds.interval.running=false; ds.interval.startedAt=null; ds.interval.accumulatedMs=0;
+  scheduleSave(); render();
+};
+window.updateIntervalLabel=(dayNumber,index,value)=>{dayState(dayNumber).interval.config[index].label=String(value).slice(0,40);scheduleSave();};
+window.updateIntervalTime=(dayNumber,index,part,value)=>{
+  const ds=dayState(dayNumber); const cur=Number(ds.interval.config[index].durationSec||0);
+  let min=Math.floor(cur/60),sec=cur%60;
+  if(part==="min") min=Math.max(0,Math.min(180,Number(value||0))); else sec=Math.max(0,Math.min(59,Number(value||0)));
+  ds.interval.config[index].durationSec=min*60+sec; scheduleSave();
+};
+window.updateTransition=(dayNumber,value)=>{dayState(dayNumber).interval.transitionSec=Math.max(0,Math.min(30,Number(value||0)));scheduleSave();};
+window.startInterval=(dayNumber)=>{
+  const ds=dayState(dayNumber); const snap=intervalSnapshot(ds); if(!snap.phases.length)return;
+  if(snap.complete) ds.interval.accumulatedMs=0;
+  if(!ds.interval.running){ds.interval.running=true;ds.interval.startedAt=Date.now();
+    if(!ds.session.running && sessionElapsedMs(ds)===0){ds.session.running=true;ds.session.startedAt=Date.now();}
+    scheduleSave();render();}
+};
+window.pauseInterval=(dayNumber)=>{const ds=dayState(dayNumber);if(ds.interval.running){ds.interval.accumulatedMs=intervalElapsedMs(ds);ds.interval.running=false;ds.interval.startedAt=null;scheduleSave();render();}};
+window.resetInterval=(dayNumber)=>{const ds=dayState(dayNumber);ds.interval.running=false;ds.interval.startedAt=null;ds.interval.accumulatedMs=0;scheduleSave();render();};
+window.skipInterval=(dayNumber,dir)=>{const ds=dayState(dayNumber),snap=intervalSnapshot(ds);if(!snap.phases.length)return;let idx=snap.phase?snap.phase.phaseIndex:0;idx=Math.max(0,Math.min(snap.phases.length-1,idx+dir));setIntervalElapsed(ds,snap.phases[idx].startMs);scheduleSave();render();};
+
+function renderTimerCard(p,ds) {
+  const elapsed=sessionElapsedMs(ds),session=ds.session,interval=ds.interval,snap=intervalSnapshot(ds),preset=runWalkPreset(p.day);
+  const rows=(interval.config||[]).map((step,idx)=>{const min=Math.floor(Number(step.durationSec||0)/60),sec=Number(step.durationSec||0)%60;return `<div class="interval-row"><input aria-label="Interval name" value="${escapeHtml(step.label||"")}" onchange="updateIntervalLabel(${p.day},${idx},this.value)"><input aria-label="Minutes" type="number" min="0" max="180" value="${min}" onchange="updateIntervalTime(${p.day},${idx},'min',this.value)"><input aria-label="Seconds" type="number" min="0" max="59" value="${sec}" onchange="updateIntervalTime(${p.day},${idx},'sec',this.value)"><button aria-label="Remove interval" onclick="removeIntervalRow(${p.day},${idx})">×</button></div>`;}).join("");
+  let label="Ready",clock="00:00",next="";
+  if(snap.complete&&snap.totalMs){label="Interval workout complete";clock=formatTime(snap.totalMs);} else if(snap.phase){label=snap.phase.type==="transition"?`Transition • ${snap.phase.label}`:snap.phase.label;clock=formatTime(snap.remainingMs);next=snap.next?`Next: ${snap.next.label}`:"Final interval";}
+  return `<div class="card timer-card"><div class="timer-label">Live workout time</div><div id="sessionClock" class="timer-big">${formatTime(elapsed)}</div><div class="timer-meta"><span>${session.running?"● Running":elapsed>0?"Paused":"Not started"}</span>${session.lastCompletedMs?`<span class="saved-duration">Last completed: ${formatTime(session.lastCompletedMs)}</span>`:""}</div><div class="timer-actions">${session.running?`<button class="timer-btn warn" onclick="pauseWorkout(${p.day})">PAUSE WORKOUT</button>`:`<button class="timer-btn primary" onclick="startWorkout(${p.day})">${elapsed>0?"RESUME WORKOUT":"START WORKOUT"}</button>`}<button class="timer-btn" onclick="resetWorkoutTimer(${p.day})">Reset time</button></div><div class="timer-status">The timer uses the saved start time, so it stays accurate after switching apps, locking your phone, watching YouTube, or refreshing.</div><div class="interval-card"><div class="timer-label">Adjustable interval timer</div><div class="interval-now"><div><div id="intervalPhase" class="interval-phase">${label}</div><div id="intervalNext" class="interval-next">${next}</div></div><div id="intervalClock" class="interval-clock">${clock}</div></div><div class="interval-progress"><div id="intervalBar" style="width:${snap.progress}%"></div></div><div class="timer-actions">${interval.running?`<button class="timer-btn warn" onclick="pauseInterval(${p.day})">PAUSE INTERVALS</button>`:`<button class="timer-btn primary" onclick="startInterval(${p.day})">${snap.elapsed>0&&!snap.complete?"RESUME INTERVALS":"START INTERVALS"}</button>`}<button class="timer-btn" onclick="skipInterval(${p.day},-1)">← Back</button><button class="timer-btn" onclick="skipInterval(${p.day},1)">Skip →</button><button class="timer-btn danger" onclick="resetInterval(${p.day})">Reset intervals</button></div><details class="interval-editor"><summary>Adjust interval sequence</summary><div class="preset-row">${preset?`<button onclick="loadRunPreset(${p.day})">Load today's Run/Walk preset</button>`:""}<button onclick="addIntervalRow(${p.day})">+ Add interval</button></div><div class="interval-settings"><label>Transition countdown (seconds)<input type="number" min="0" max="30" value="${Number(interval.transitionSec??3)}" onchange="updateTransition(${p.day},this.value)"></label></div><div class="interval-rows">${rows||`<div class="muted">No intervals yet. Add one${preset?" or load today's preset":""}.</div>`}</div></details></div></div>`;
+}
+
 function renderToday() {
   const p = PLAN[selected];
   const ds = dayState(p.day);
@@ -220,6 +377,8 @@ function renderToday() {
         Target time: ${p.target} • Rest 60–90 sec between strength sets.
       </div>
     </div>
+
+    ${renderTimerCard(p, ds)}
 
     <div class="card">
       ${exercises}
@@ -258,9 +417,19 @@ window.completeDay = (dayNumber) => {
   ds.done = !ds.done;
 
   if (ds.done) {
-    PLAN[dayNumber - 1].exercises.forEach((_, i) => {
-      ds.checks[i] = true;
-    });
+    PLAN[dayNumber - 1].exercises.forEach((_, i) => { ds.checks[i] = true; });
+    const total = sessionElapsedMs(ds);
+    if (total > 0) ds.session.lastCompletedMs = total;
+    ds.session.accumulatedMs = total;
+    ds.session.running = false;
+    ds.session.startedAt = null;
+    if (ds.interval.running) {
+      ds.interval.accumulatedMs = intervalElapsedMs(ds);
+      ds.interval.running = false;
+      ds.interval.startedAt = null;
+    }
+    const snap = intervalSnapshot(ds);
+    if (snap.complete && snap.totalMs) ds.interval.lastCompletedMs = snap.totalMs;
   }
 
   scheduleSave();
@@ -293,6 +462,7 @@ function renderCalendar() {
             </div>
             <div>${p.dateLabel}</div>
             <div class="t">${p.title}</div>
+            ${dayState(p.day).session?.lastCompletedMs ? `<div class="t">Workout time: ${formatTime(dayState(p.day).session.lastCompletedMs)}</div>` : ""}
           </div>
         `).join("")}
       </div>
@@ -309,6 +479,10 @@ function renderProgress() {
   const average = feelings.length
     ? (feelings.reduce((a, b) => a + b, 0) / feelings.length).toFixed(1)
     : "—";
+
+  const durations = PLAN.map((p) => Number(dayState(p.day).session?.lastCompletedMs || 0)).filter((v) => v > 0);
+  const totalTrainingMs = durations.reduce((a, b) => a + b, 0);
+  const averageTrainingMs = durations.length ? totalTrainingMs / durations.length : 0;
 
   document.getElementById("progressView").innerHTML = `
     <div class="card">
@@ -329,6 +503,14 @@ function renderProgress() {
         <div class="stat">
           <b>${average}</b>
           <span>Avg. feeling</span>
+        </div>
+        <div class="stat">
+          <b>${durations.length ? formatTime(totalTrainingMs) : "—"}</b>
+          <span>Total timed training</span>
+        </div>
+        <div class="stat">
+          <b>${durations.length ? formatTime(averageTrainingMs) : "—"}</b>
+          <span>Avg. workout time</span>
         </div>
       </div>
     </div>
@@ -376,6 +558,34 @@ function render() {
   renderProgress();
   updateHeader();
 }
+
+
+function tickVisibleTimers() {
+  const p = PLAN[selected];
+  const ds = dayState(p.day);
+  const sc = document.getElementById("sessionClock");
+  if (sc) sc.textContent = formatTime(sessionElapsedMs(ds));
+  const snap = intervalSnapshot(ds);
+  const ic = document.getElementById("intervalClock");
+  const ip = document.getElementById("intervalPhase");
+  const inn = document.getElementById("intervalNext");
+  const bar = document.getElementById("intervalBar");
+  if (ic) ic.textContent = snap.complete && snap.totalMs ? formatTime(snap.totalMs) : snap.phase ? formatTime(snap.remainingMs) : "00:00";
+  if (ip) ip.textContent = snap.complete && snap.totalMs ? "Interval workout complete" : snap.phase ? (snap.phase.type === "transition" ? `Transition • ${snap.phase.label}` : snap.phase.label) : "Ready";
+  if (inn) inn.textContent = snap.phase ? (snap.next ? `Next: ${snap.next.label}` : "Final interval") : "";
+  if (bar) bar.style.width = `${snap.progress}%`;
+  if (ds.interval.running && snap.complete) {
+    ds.interval.running = false;
+    ds.interval.startedAt = null;
+    ds.interval.accumulatedMs = snap.totalMs;
+    ds.interval.lastCompletedMs = snap.totalMs;
+    scheduleSave();
+    renderToday();
+  }
+}
+setInterval(tickVisibleTimers, 250);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) { render(); tickVisibleTimers(); } });
+window.addEventListener("focus", () => { render(); tickVisibleTimers(); });
 
 // Authentication modal
 const modal = document.getElementById("authModal");
