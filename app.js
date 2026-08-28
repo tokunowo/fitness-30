@@ -152,7 +152,16 @@ function defaultSession() {
   return { running: false, startedAt: null, accumulatedMs: 0, lastCompletedMs: 0 };
 }
 function defaultInterval() {
-  return { config: [], transitionSec: 3, running: false, startedAt: null, accumulatedMs: 0, lastCompletedMs: 0 };
+  return {
+    config: [],
+    transitionSec: 3,
+    soundEnabled: true,
+    vibrationEnabled: true,
+    running: false,
+    startedAt: null,
+    accumulatedMs: 0,
+    lastCompletedMs: 0
+  };
 }
 function dayState(dayNumber) {
   state.days ??= {};
@@ -162,8 +171,11 @@ function dayState(dayNumber) {
   ds.done ??= false;
   ds.feel ??= "";
   ds.notes ??= "";
+  ds.difficulty ??= null;
   ds.session ??= defaultSession();
   ds.interval ??= defaultInterval();
+  ds.interval.soundEnabled ??= true;
+  ds.interval.vibrationEnabled ??= true;
   return ds;
 }
 
@@ -238,7 +250,6 @@ async function loadCloudProgress() {
 
     // First successful sign-in also migrates any existing browser-only progress to Firestore.
     await pushCloudProgress();
-    render();
 
     setAuthStatus(
       "synced",
@@ -246,11 +257,15 @@ async function loadCloudProgress() {
     );
   } catch (error) {
     console.error("Cloud load error:", error);
+    const code = error?.code ? ` (${error.code})` : "";
     setAuthStatus(
       "error",
-      `Signed in as ${currentUser.email} • Cloud sync error; local saving remains active`
+      `Signed in as ${currentUser.email} • Cloud sync error${code}; local saving remains active`
     );
   }
+
+  // Rendering is deliberately outside the Firestore try/catch so UI errors are not mislabeled as cloud errors.
+  render();
 }
 
 async function pushCloudProgress() {
@@ -499,7 +514,8 @@ window.skipInterval=(dayNumber,dir)=>{const ds=dayState(dayNumber),snap=interval
 
 function renderTimerCard(p,ds) {
   const elapsed=sessionElapsedMs(ds),session=ds.session,interval=ds.interval,snap=intervalSnapshot(ds),preset=runWalkPreset(p.day);
-  const rows=(interval.config||[]).map((step,idx)=>{const min=Math.floor(Number(step.durationSec||0)/60),sec=Number(step.durationSec||0)%60;return `<div class="interval-row"><input aria-label="Interval name" value="${escapeHtml(step.label||"")}" oninput="updateIntervalDraftLabel(${p.day},${idx},this.value)"><input aria-label="Minutes" type="number" min="0" max="180" value="${min}" oninput="updateIntervalDraftTime(${p.day},${idx},'min',this.value)"><input aria-label="Seconds" type="number" min="0" max="59" value="${sec}" oninput="updateIntervalDraftTime(${p.day},${idx},'sec',this.value)"><button aria-label="Remove interval" onclick="removeIntervalDraftRow(${p.day},${idx})">×</button></div>`;}).join("");
+  const draft=ensureIntervalDraft(p.day);
+  const rows=(draft.config||[]).map((step,idx)=>{const min=Math.floor(Number(step.durationSec||0)/60),sec=Number(step.durationSec||0)%60;return `<div class="interval-row"><input aria-label="Interval name" value="${escapeHtml(step.label||"")}" oninput="updateIntervalDraftLabel(${p.day},${idx},this.value)"><input aria-label="Minutes" type="number" min="0" max="180" value="${min}" oninput="updateIntervalDraftTime(${p.day},${idx},'min',this.value)"><input aria-label="Seconds" type="number" min="0" max="59" value="${sec}" oninput="updateIntervalDraftTime(${p.day},${idx},'sec',this.value)"><button aria-label="Remove interval" onclick="removeIntervalDraftRow(${p.day},${idx})">×</button></div>`;}).join("");
   let label="Ready",clock="00:00",next="";
   if(snap.complete&&snap.totalMs){label="Interval workout complete";clock=formatTime(snap.totalMs);} else if(snap.phase){label=snap.phase.type==="transition"?`Transition • ${snap.phase.label}`:snap.phase.label;clock=formatTime(snap.remainingMs);next=snap.next?`Next: ${snap.next.label}`:"Final interval";}
   return `<div class="card timer-card"><div class="timer-label">Live workout time</div><div id="sessionClock" class="timer-big">${formatTime(elapsed)}</div><div class="timer-meta"><span>${session.running?"● Running":elapsed>0?"Paused":"Not started"}</span>${session.lastCompletedMs?`<span class="saved-duration">Last completed: ${formatTime(session.lastCompletedMs)}</span>`:""}</div><div class="timer-actions">${session.running?`<button class="timer-btn warn" onclick="pauseWorkout(${p.day})">PAUSE WORKOUT</button>`:`<button class="timer-btn primary" onclick="startWorkout(${p.day})">${elapsed>0?"RESUME WORKOUT":"START WORKOUT"}</button>`}<button class="timer-btn" onclick="resetWorkoutTimer(${p.day})">Reset time</button></div><div class="timer-status">The timer uses the saved start time, so it stays accurate after switching apps, locking your phone, watching YouTube, or refreshing.</div><div class="interval-card"><div class="timer-label">Adjustable interval timer</div><div class="interval-now"><div><div id="intervalPhase" class="interval-phase">${label}</div><div id="intervalNext" class="interval-next">${next}</div></div><div id="intervalClock" class="interval-clock">${clock}</div></div><div class="interval-progress"><div id="intervalBar" style="width:${snap.progress}%"></div></div><div class="timer-actions">${interval.running?`<button class="timer-btn warn" onclick="pauseInterval(${p.day})">PAUSE INTERVALS</button>`:`<button class="timer-btn primary" onclick="startInterval(${p.day})">${snap.elapsed>0&&!snap.complete?"RESUME INTERVALS":"START INTERVALS"}</button>`}<button class="timer-btn" onclick="skipInterval(${p.day},-1)">← Back</button><button class="timer-btn" onclick="skipInterval(${p.day},1)">Skip →</button><button class="timer-btn danger" onclick="resetInterval(${p.day})">Reset intervals</button></div><details class="interval-editor" id="intervalEditor-${p.day}"><summary>Adjust interval sequence</summary><div class="preset-row">${preset?`<button onclick="loadRunPreset(${p.day})">Load today's Run/Walk preset</button>`:""}<button onclick="addIntervalDraftRow(${p.day})">+ Add interval</button></div><div class="interval-settings"><label>Transition countdown (seconds)<input type="number" min="0" max="30" value="${Number(draft.transitionSec??3)}" oninput="updateIntervalDraftTransition(${p.day},this.value)"></label></div><div class="cue-options"><label class="cue-toggle"><input type="checkbox" ${interval.soundEnabled!==false?"checked":""} onchange="setIntervalCueOption(${p.day},'soundEnabled',this.checked)"><span>🔊 Sound cues</span></label><label class="cue-toggle"><input type="checkbox" ${interval.vibrationEnabled!==false?"checked":""} onchange="setIntervalCueOption(${p.day},'vibrationEnabled',this.checked)"><span>📳 Vibration cues</span></label></div><div class="interval-rows">${rows||`<div class="muted">No intervals yet. Add one${preset?" or load today's preset":""}.</div>`}</div><div class="interval-confirm-row"><button class="timer-btn primary" onclick="confirmIntervalSettings(${p.day})">OK — SAVE INTERVALS</button><button class="timer-btn" onclick="cancelIntervalSettings(${p.day})">Cancel</button></div></details></div></div>`;
@@ -529,6 +545,18 @@ function launchWorkoutCelebration(dayNumber) {
   document.getElementById("closeCelebration")?.addEventListener("click",close);
   overlay.addEventListener("click",e=>{if(e.target===overlay)close()});
   setTimeout(()=>{if(document.body.contains(overlay))close()},6500);
+}
+
+
+function difficultyLabel(value) {
+  const labels = {
+    1: "1 — Very Easy",
+    2: "2 — Easy",
+    3: "3 — Moderate",
+    4: "4 — Hard",
+    5: "5 — Very Hard"
+  };
+  return labels[Number(value)] || "Not rated";
 }
 
 function renderToday() {
@@ -747,19 +775,6 @@ function switchView(name) {
   document.querySelectorAll(".view").forEach((el) => el.classList.add("hidden"));
   document.getElementById(name + "View").classList.remove("hidden");
 
-  
-document.addEventListener("click", (event) => {
-  const btn = event.target.closest("[data-difficulty-day][data-difficulty-value]");
-  if (!btn) return;
-  event.preventDefault();
-  const dayNumber = Number(btn.dataset.difficultyDay);
-  const value = Math.max(1, Math.min(5, Number(btn.dataset.difficultyValue || 0)));
-  dayState(dayNumber).difficulty = value;
-  scheduleSave();
-  renderToday();
-  renderProgress();
-});
-
 document.querySelectorAll(".tabs button").forEach((button) => {
     button.classList.toggle("active", button.dataset.view === name);
   });
@@ -804,6 +819,7 @@ function tickVisibleTimers() {
   const sc = document.getElementById("sessionClock");
   if (sc) sc.textContent = formatTime(sessionElapsedMs(ds));
   const snap = intervalSnapshot(ds);
+  checkIntervalCues(p.day, ds, snap);
   const ic = document.getElementById("intervalClock");
   const ip = document.getElementById("intervalPhase");
   const inn = document.getElementById("intervalNext");
