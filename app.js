@@ -252,6 +252,70 @@ window.resetWorkoutTimer = (dayNumber) => {
   render();
 };
 
+
+let intervalDrafts = {};
+
+function ensureIntervalDraft(dayNumber) {
+  const ds = dayState(dayNumber);
+  if (!intervalDrafts[dayNumber]) {
+    intervalDrafts[dayNumber] = {
+      config: JSON.parse(JSON.stringify(ds.interval.config || [])),
+      transitionSec: Number(ds.interval.transitionSec ?? 3)
+    };
+  }
+  return intervalDrafts[dayNumber];
+}
+window.addIntervalDraftRow = (d) => {
+  const draft = ensureIntervalDraft(d);
+  draft.config.push({ label: `Interval ${draft.config.length + 1}`, durationSec: 60 });
+  renderToday();
+  requestAnimationFrame(() => {
+    const details = document.getElementById(`intervalEditor-${d}`);
+    if (details) details.open = true;
+  });
+};
+window.removeIntervalDraftRow = (d, idx) => {
+  const draft = ensureIntervalDraft(d);
+  draft.config.splice(idx, 1);
+  renderToday();
+  requestAnimationFrame(() => {
+    const details = document.getElementById(`intervalEditor-${d}`);
+    if (details) details.open = true;
+  });
+};
+window.updateIntervalDraftLabel = (d, idx, value) => {
+  const draft = ensureIntervalDraft(d);
+  if (draft.config[idx]) draft.config[idx].label = String(value).slice(0, 40);
+};
+window.updateIntervalDraftTime = (d, idx, part, value) => {
+  const draft = ensureIntervalDraft(d);
+  if (!draft.config[idx]) return;
+  const cur = Number(draft.config[idx].durationSec || 0);
+  let min = Math.floor(cur / 60), sec = cur % 60;
+  if (part === "min") min = Math.max(0, Math.min(180, Number(value || 0)));
+  else sec = Math.max(0, Math.min(59, Number(value || 0)));
+  draft.config[idx].durationSec = min * 60 + sec;
+};
+window.updateIntervalDraftTransition = (d, value) => {
+  ensureIntervalDraft(d).transitionSec = Math.max(0, Math.min(30, Number(value || 0)));
+};
+window.confirmIntervalSettings = (d) => {
+  const ds = dayState(d);
+  const draft = ensureIntervalDraft(d);
+  ds.interval.config = JSON.parse(JSON.stringify(draft.config));
+  ds.interval.transitionSec = draft.transitionSec;
+  ds.interval.running = false;
+  ds.interval.startedAt = null;
+  ds.interval.accumulatedMs = 0;
+  delete intervalDrafts[d];
+  scheduleSave();
+  render();
+};
+window.cancelIntervalSettings = (d) => {
+  delete intervalDrafts[d];
+  renderToday();
+};
+
 function runWalkPreset(dayNumber) {
   const presets = {
     2:{warm:300,jog:60,walk:90,reps:7,cool:300},
@@ -343,10 +407,10 @@ window.skipInterval=(dayNumber,dir)=>{const ds=dayState(dayNumber),snap=interval
 
 function renderTimerCard(p,ds) {
   const elapsed=sessionElapsedMs(ds),session=ds.session,interval=ds.interval,snap=intervalSnapshot(ds),preset=runWalkPreset(p.day);
-  const rows=(interval.config||[]).map((step,idx)=>{const min=Math.floor(Number(step.durationSec||0)/60),sec=Number(step.durationSec||0)%60;return `<div class="interval-row"><input aria-label="Interval name" value="${escapeHtml(step.label||"")}" onchange="updateIntervalLabel(${p.day},${idx},this.value)"><input aria-label="Minutes" type="number" min="0" max="180" value="${min}" onchange="updateIntervalTime(${p.day},${idx},'min',this.value)"><input aria-label="Seconds" type="number" min="0" max="59" value="${sec}" onchange="updateIntervalTime(${p.day},${idx},'sec',this.value)"><button aria-label="Remove interval" onclick="removeIntervalRow(${p.day},${idx})">×</button></div>`;}).join("");
+  const rows=(interval.config||[]).map((step,idx)=>{const min=Math.floor(Number(step.durationSec||0)/60),sec=Number(step.durationSec||0)%60;return `<div class="interval-row"><input aria-label="Interval name" value="${escapeHtml(step.label||"")}" oninput="updateIntervalDraftLabel(${p.day},${idx},this.value)"><input aria-label="Minutes" type="number" min="0" max="180" value="${min}" oninput="updateIntervalDraftTime(${p.day},${idx},'min',this.value)"><input aria-label="Seconds" type="number" min="0" max="59" value="${sec}" oninput="updateIntervalDraftTime(${p.day},${idx},'sec',this.value)"><button aria-label="Remove interval" onclick="removeIntervalDraftRow(${p.day},${idx})">×</button></div>`;}).join("");
   let label="Ready",clock="00:00",next="";
   if(snap.complete&&snap.totalMs){label="Interval workout complete";clock=formatTime(snap.totalMs);} else if(snap.phase){label=snap.phase.type==="transition"?`Transition • ${snap.phase.label}`:snap.phase.label;clock=formatTime(snap.remainingMs);next=snap.next?`Next: ${snap.next.label}`:"Final interval";}
-  return `<div class="card timer-card"><div class="timer-label">Live workout time</div><div id="sessionClock" class="timer-big">${formatTime(elapsed)}</div><div class="timer-meta"><span>${session.running?"● Running":elapsed>0?"Paused":"Not started"}</span>${session.lastCompletedMs?`<span class="saved-duration">Last completed: ${formatTime(session.lastCompletedMs)}</span>`:""}</div><div class="timer-actions">${session.running?`<button class="timer-btn warn" onclick="pauseWorkout(${p.day})">PAUSE WORKOUT</button>`:`<button class="timer-btn primary" onclick="startWorkout(${p.day})">${elapsed>0?"RESUME WORKOUT":"START WORKOUT"}</button>`}<button class="timer-btn" onclick="resetWorkoutTimer(${p.day})">Reset time</button></div><div class="timer-status">The timer uses the saved start time, so it stays accurate after switching apps, locking your phone, watching YouTube, or refreshing.</div><div class="interval-card"><div class="timer-label">Adjustable interval timer</div><div class="interval-now"><div><div id="intervalPhase" class="interval-phase">${label}</div><div id="intervalNext" class="interval-next">${next}</div></div><div id="intervalClock" class="interval-clock">${clock}</div></div><div class="interval-progress"><div id="intervalBar" style="width:${snap.progress}%"></div></div><div class="timer-actions">${interval.running?`<button class="timer-btn warn" onclick="pauseInterval(${p.day})">PAUSE INTERVALS</button>`:`<button class="timer-btn primary" onclick="startInterval(${p.day})">${snap.elapsed>0&&!snap.complete?"RESUME INTERVALS":"START INTERVALS"}</button>`}<button class="timer-btn" onclick="skipInterval(${p.day},-1)">← Back</button><button class="timer-btn" onclick="skipInterval(${p.day},1)">Skip →</button><button class="timer-btn danger" onclick="resetInterval(${p.day})">Reset intervals</button></div><details class="interval-editor"><summary>Adjust interval sequence</summary><div class="preset-row">${preset?`<button onclick="loadRunPreset(${p.day})">Load today's Run/Walk preset</button>`:""}<button onclick="addIntervalRow(${p.day})">+ Add interval</button></div><div class="interval-settings"><label>Transition countdown (seconds)<input type="number" min="0" max="30" value="${Number(interval.transitionSec??3)}" onchange="updateTransition(${p.day},this.value)"></label></div><div class="interval-rows">${rows||`<div class="muted">No intervals yet. Add one${preset?" or load today's preset":""}.</div>`}</div></details></div></div>`;
+  return `<div class="card timer-card"><div class="timer-label">Live workout time</div><div id="sessionClock" class="timer-big">${formatTime(elapsed)}</div><div class="timer-meta"><span>${session.running?"● Running":elapsed>0?"Paused":"Not started"}</span>${session.lastCompletedMs?`<span class="saved-duration">Last completed: ${formatTime(session.lastCompletedMs)}</span>`:""}</div><div class="timer-actions">${session.running?`<button class="timer-btn warn" onclick="pauseWorkout(${p.day})">PAUSE WORKOUT</button>`:`<button class="timer-btn primary" onclick="startWorkout(${p.day})">${elapsed>0?"RESUME WORKOUT":"START WORKOUT"}</button>`}<button class="timer-btn" onclick="resetWorkoutTimer(${p.day})">Reset time</button></div><div class="timer-status">The timer uses the saved start time, so it stays accurate after switching apps, locking your phone, watching YouTube, or refreshing.</div><div class="interval-card"><div class="timer-label">Adjustable interval timer</div><div class="interval-now"><div><div id="intervalPhase" class="interval-phase">${label}</div><div id="intervalNext" class="interval-next">${next}</div></div><div id="intervalClock" class="interval-clock">${clock}</div></div><div class="interval-progress"><div id="intervalBar" style="width:${snap.progress}%"></div></div><div class="timer-actions">${interval.running?`<button class="timer-btn warn" onclick="pauseInterval(${p.day})">PAUSE INTERVALS</button>`:`<button class="timer-btn primary" onclick="startInterval(${p.day})">${snap.elapsed>0&&!snap.complete?"RESUME INTERVALS":"START INTERVALS"}</button>`}<button class="timer-btn" onclick="skipInterval(${p.day},-1)">← Back</button><button class="timer-btn" onclick="skipInterval(${p.day},1)">Skip →</button><button class="timer-btn danger" onclick="resetInterval(${p.day})">Reset intervals</button></div><details class="interval-editor" id="intervalEditor-${p.day}"><summary>Adjust interval sequence</summary><div class="preset-row">${preset?`<button onclick="loadRunPreset(${p.day})">Load today's Run/Walk preset</button>`:""}<button onclick="addIntervalDraftRow(${p.day})">+ Add interval</button></div><div class="interval-settings"><label>Transition countdown (seconds)<input type="number" min="0" max="30" value="${Number(draft.transitionSec??3)}" oninput="updateIntervalDraftTransition(${p.day},this.value)"></label></div><div class="interval-rows">${rows||`<div class="muted">No intervals yet. Add one${preset?" or load today's preset":""}.</div>`}</div><div class="interval-confirm-row"><button class="timer-btn primary" onclick="confirmIntervalSettings(${p.day})">OK — SAVE INTERVALS</button><button class="timer-btn" onclick="cancelIntervalSettings(${p.day})">Cancel</button></div></details></div></div>`;
 }
 
 function renderToday() {
@@ -389,19 +453,36 @@ function renderToday() {
     </div>
 
     <div class="card">
-      <h3>Quick Check-In</h3>
-      <div class="metrics">
-        <label>
-          How I felt (1–10)
-          <input type="number" min="1" max="10"
-            value="${ds.feel || ""}"
-            onchange="setField(${p.day},'feel',this.value)">
-        </label>
-        <label>
-          Notes
-          <textarea onchange="setField(${p.day},'notes',this.value)">${ds.notes || ""}</textarea>
-        </label>
+      <h3>How difficult was today?</h3>
+      <p class="muted">Tap one level after your workout. You can change it later.</p>
+
+      <div class="difficulty-gauge" role="group" aria-label="Workout difficulty">
+        ${[
+          [1,"Very Easy"],
+          [2,"Easy"],
+          [3,"Moderate"],
+          [4,"Hard"],
+          [5,"Very Hard"]
+        ].map(([value,label]) => `
+          <button type="button"
+            class="difficulty-option ${Number(ds.difficulty)===value ? "selected" : ""}"
+            data-difficulty-day="${p.day}" data-difficulty-value="${value}"
+            aria-pressed="${Number(ds.difficulty)===value ? "true" : "false"}">
+            <span class="difficulty-number">${value}</span>
+            <span>${label}</span>
+          </button>
+        `).join("")}
       </div>
+
+      ${ds.difficulty
+        ? `<div class="difficulty-selected">Saved: ${difficultyLabel(ds.difficulty)}</div>`
+        : ""}
+
+      <details class="optional-note">
+        <summary>Add optional note</summary>
+        <textarea placeholder="Optional: soreness, pain, equipment feeling too easy, etc."
+          onchange="setField(${p.day},'notes',this.value)">${ds.notes || ""}</textarea>
+      </details>
     </div>
   `;
 }
@@ -463,6 +544,7 @@ function renderCalendar() {
             <div>${p.dateLabel}</div>
             <div class="t">${p.title}</div>
             ${dayState(p.day).session?.lastCompletedMs ? `<div class="t">Workout time: ${formatTime(dayState(p.day).session.lastCompletedMs)}</div>` : ""}
+            ${dayState(p.day).difficulty ? `<div class="t">Difficulty: ${difficultyLabel(dayState(p.day).difficulty)}</div>` : ""}
           </div>
         `).join("")}
       </div>
@@ -472,13 +554,15 @@ function renderCalendar() {
 
 function renderProgress() {
   const completed = PLAN.filter((p) => dayState(p.day).done).length;
-  const feelings = PLAN
-    .map((p) => Number(dayState(p.day).feel))
-    .filter(Boolean);
+  const difficultyValues = PLAN
+    .map((p) => Number(dayState(p.day).difficulty))
+    .filter((v) => v >= 1 && v <= 5);
 
-  const average = feelings.length
-    ? (feelings.reduce((a, b) => a + b, 0) / feelings.length).toFixed(1)
+  const averageDifficulty = difficultyValues.length
+    ? (difficultyValues.reduce((a, b) => a + b, 0) / difficultyValues.length).toFixed(1)
     : "—";
+  const hardestDifficulty = difficultyValues.length ? Math.max(...difficultyValues) : null;
+  const easiestDifficulty = difficultyValues.length ? Math.min(...difficultyValues) : null;
 
   const durations = PLAN.map((p) => Number(dayState(p.day).session?.lastCompletedMs || 0)).filter((v) => v > 0);
   const totalTrainingMs = durations.reduce((a, b) => a + b, 0);
@@ -501,8 +585,16 @@ function renderProgress() {
           <span>Program complete</span>
         </div>
         <div class="stat">
-          <b>${average}</b>
-          <span>Avg. feeling</span>
+          <b>${averageDifficulty}</b>
+          <span>Avg. difficulty / 5</span>
+        </div>
+        <div class="stat">
+          <b>${hardestDifficulty ? hardestDifficulty + "/5" : "—"}</b>
+          <span>Hardest rated day</span>
+        </div>
+        <div class="stat">
+          <b>${easiestDifficulty ? easiestDifficulty + "/5" : "—"}</b>
+          <span>Easiest rated day</span>
         </div>
         <div class="stat">
           <b>${durations.length ? formatTime(totalTrainingMs) : "—"}</b>
@@ -535,7 +627,20 @@ function switchView(name) {
   document.querySelectorAll(".view").forEach((el) => el.classList.add("hidden"));
   document.getElementById(name + "View").classList.remove("hidden");
 
-  document.querySelectorAll(".tabs button").forEach((button) => {
+  
+document.addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-difficulty-day][data-difficulty-value]");
+  if (!btn) return;
+  event.preventDefault();
+  const dayNumber = Number(btn.dataset.difficultyDay);
+  const value = Math.max(1, Math.min(5, Number(btn.dataset.difficultyValue || 0)));
+  dayState(dayNumber).difficulty = value;
+  scheduleSave();
+  renderToday();
+  renderProgress();
+});
+
+document.querySelectorAll(".tabs button").forEach((button) => {
     button.classList.toggle("active", button.dataset.view === name);
   });
 
@@ -547,6 +652,19 @@ function switchView(name) {
 }
 
 window.switchView = switchView;
+
+
+document.addEventListener("click", (event) => {
+  const btn = event.target.closest("[data-difficulty-day][data-difficulty-value]");
+  if (!btn) return;
+  event.preventDefault();
+  const dayNumber = Number(btn.dataset.difficultyDay);
+  const value = Math.max(1, Math.min(5, Number(btn.dataset.difficultyValue || 0)));
+  dayState(dayNumber).difficulty = value;
+  scheduleSave();
+  renderToday();
+  renderProgress();
+});
 
 document.querySelectorAll(".tabs button").forEach((button) => {
   button.onclick = () => switchView(button.dataset.view);

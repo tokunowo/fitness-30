@@ -21,3 +21,21 @@ Replace all files in the fitness-30 GitHub repository.
 Suggested commit: Add live workout and interval timers
 
 After GitHub deploys, hard refresh once or close/reopen the mobile browser tab.
+
+
+DIFFICULTY GAUGE UPDATE
+-----------------------
+• Adds a 5-level tap gauge: Very Easy / Easy / Moderate / Hard / Very Hard.
+• Difficulty saves inside the existing day progress object in localStorage and Firebase.
+• Existing progress is preserved because the same localStorage key and Firestore document path remain unchanged.
+• Existing legacy 1–10 "feel" values are not deleted.
+• Notes are now optional under "Add optional note".
+• Progress page shows average, hardest, and easiest difficulty ratings.
+• Service worker cache bumped to v7.
+
+BUG FIX v8
+- Difficulty gauge click/tap fixed.
+- Interval editor now keeps draft changes until OK.
+- Add/remove/preset keeps editor open.
+- OK saves interval sequence; Cancel discards unconfirmed changes.
+- Existing progress/Firebase/localStorage remains unchanged.
