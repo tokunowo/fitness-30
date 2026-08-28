@@ -389,36 +389,19 @@ function renderToday() {
     </div>
 
     <div class="card">
-      <h3>How difficult was today?</h3>
-      <p class="muted">Tap one level after your workout. You can change it later.</p>
-
-      <div class="difficulty-gauge" role="group" aria-label="Workout difficulty">
-        ${[
-          [1,"Very Easy"],
-          [2,"Easy"],
-          [3,"Moderate"],
-          [4,"Hard"],
-          [5,"Very Hard"]
-        ].map(([value,label]) => `
-          <button type="button"
-            class="difficulty-option ${Number(ds.difficulty)===value ? "selected" : ""}"
-            onclick="setDifficulty(${p.day},${value})"
-            aria-pressed="${Number(ds.difficulty)===value ? "true" : "false"}">
-            <span class="difficulty-number">${value}</span>
-            <span>${label}</span>
-          </button>
-        `).join("")}
+      <h3>Quick Check-In</h3>
+      <div class="metrics">
+        <label>
+          How I felt (1–10)
+          <input type="number" min="1" max="10"
+            value="${ds.feel || ""}"
+            onchange="setField(${p.day},'feel',this.value)">
+        </label>
+        <label>
+          Notes
+          <textarea onchange="setField(${p.day},'notes',this.value)">${ds.notes || ""}</textarea>
+        </label>
       </div>
-
-      ${ds.difficulty
-        ? `<div class="difficulty-selected">Saved: ${difficultyLabel(ds.difficulty)}</div>`
-        : ""}
-
-      <details class="optional-note">
-        <summary>Add optional note</summary>
-        <textarea placeholder="Optional: soreness, pain, equipment feeling too easy, etc."
-          onchange="setField(${p.day},'notes',this.value)">${ds.notes || ""}</textarea>
-      </details>
     </div>
   `;
 }
@@ -480,7 +463,6 @@ function renderCalendar() {
             <div>${p.dateLabel}</div>
             <div class="t">${p.title}</div>
             ${dayState(p.day).session?.lastCompletedMs ? `<div class="t">Workout time: ${formatTime(dayState(p.day).session.lastCompletedMs)}</div>` : ""}
-            ${dayState(p.day).difficulty ? `<div class="t">Difficulty: ${difficultyLabel(dayState(p.day).difficulty)}</div>` : ""}
           </div>
         `).join("")}
       </div>
@@ -490,15 +472,13 @@ function renderCalendar() {
 
 function renderProgress() {
   const completed = PLAN.filter((p) => dayState(p.day).done).length;
-  const difficultyValues = PLAN
-    .map((p) => Number(dayState(p.day).difficulty))
-    .filter((v) => v >= 1 && v <= 5);
+  const feelings = PLAN
+    .map((p) => Number(dayState(p.day).feel))
+    .filter(Boolean);
 
-  const averageDifficulty = difficultyValues.length
-    ? (difficultyValues.reduce((a, b) => a + b, 0) / difficultyValues.length).toFixed(1)
+  const average = feelings.length
+    ? (feelings.reduce((a, b) => a + b, 0) / feelings.length).toFixed(1)
     : "—";
-  const hardestDifficulty = difficultyValues.length ? Math.max(...difficultyValues) : null;
-  const easiestDifficulty = difficultyValues.length ? Math.min(...difficultyValues) : null;
 
   const durations = PLAN.map((p) => Number(dayState(p.day).session?.lastCompletedMs || 0)).filter((v) => v > 0);
   const totalTrainingMs = durations.reduce((a, b) => a + b, 0);
@@ -521,16 +501,8 @@ function renderProgress() {
           <span>Program complete</span>
         </div>
         <div class="stat">
-          <b>${averageDifficulty}</b>
-          <span>Avg. difficulty / 5</span>
-        </div>
-        <div class="stat">
-          <b>${hardestDifficulty ? hardestDifficulty + "/5" : "—"}</b>
-          <span>Hardest rated day</span>
-        </div>
-        <div class="stat">
-          <b>${easiestDifficulty ? easiestDifficulty + "/5" : "—"}</b>
-          <span>Easiest rated day</span>
+          <b>${average}</b>
+          <span>Avg. feeling</span>
         </div>
         <div class="stat">
           <b>${durations.length ? formatTime(totalTrainingMs) : "—"}</b>
