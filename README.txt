@@ -39,3 +39,21 @@ BUG FIX v8
 - Add/remove/preset keeps editor open.
 - OK saves interval sequence; Cancel discards unconfirmed changes.
 - Existing progress/Firebase/localStorage remains unchanged.
+
+
+INTERVAL CUE UPDATE — v9
+------------------------
+• Adds sound countdown cues before each next interval.
+• Adds vibration cues when the browser/device supports the Vibration API.
+• 3/2/1 transition countdown produces a short beep/vibration each second.
+• A distinct GO cue fires as the next work interval begins.
+• Sound and vibration can each be turned on/off in the interval editor.
+• Audio is initialized from the Start Intervals tap for mobile-browser compatibility.
+• Existing progress, Firebase/localStorage data, completed days, and timer history are preserved.
+
+MOBILE BROWSER NOTE
+-------------------
+Web browsers may suspend JavaScript/audio while a tab is fully backgrounded or the phone is locked.
+The timer itself remains accurate because it is timestamp-based. Sound/vibration cues work while the web
+app is active and allowed by the device/browser. navigator.vibrate is not supported by every browser,
+especially some iPhone/Safari versions.

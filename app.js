@@ -1,3 +1,95 @@
+
+/* ---------- Interval sound + vibration cues ---------- */
+let cueAudioContext = null;
+let lastIntervalCueKey = "";
+
+function ensureCueAudio() {
+  try {
+    if (!cueAudioContext) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) cueAudioContext = new AudioCtx();
+    }
+    if (cueAudioContext?.state === "suspended") cueAudioContext.resume();
+  } catch (err) {
+    console.warn("Audio cue unavailable:", err);
+  }
+}
+
+function playCueTone(kind = "countdown") {
+  try {
+    ensureCueAudio();
+    if (!cueAudioContext) return;
+    const ctx = cueAudioContext;
+    const oscillator = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.value = kind === "go" ? 1046.5 : 784;
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(kind === "go" ? 0.22 : 0.14, ctx.currentTime + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + (kind === "go" ? 0.22 : 0.12));
+
+    oscillator.connect(gain);
+    gain.connect(ctx.destination);
+    oscillator.start();
+    oscillator.stop(ctx.currentTime + (kind === "go" ? 0.24 : 0.14));
+  } catch (err) {
+    console.warn("Could not play interval cue:", err);
+  }
+}
+
+function vibrateCue(kind = "countdown") {
+  try {
+    if (!("vibrate" in navigator)) return;
+    navigator.vibrate(kind === "go" ? [140, 70, 140] : 90);
+  } catch (err) {
+    console.warn("Vibration cue unavailable:", err);
+  }
+}
+
+function fireIntervalCue(ds, kind, cueKey) {
+  if (cueKey === lastIntervalCueKey) return;
+  lastIntervalCueKey = cueKey;
+
+  if (ds.interval?.soundEnabled !== false) playCueTone(kind);
+  if (ds.interval?.vibrationEnabled !== false) vibrateCue(kind);
+}
+
+window.setIntervalCueOption = (dayNumber, field, checked) => {
+  const ds = dayState(dayNumber);
+  if (field === "soundEnabled") ds.interval.soundEnabled = Boolean(checked);
+  if (field === "vibrationEnabled") ds.interval.vibrationEnabled = Boolean(checked);
+  scheduleSave();
+};
+
+function checkIntervalCues(dayNumber, ds, snap) {
+  if (!ds.interval?.running || !snap?.phase) return;
+
+  // During a transition countdown, cue at 3, 2, and 1 seconds remaining.
+  if (snap.phase.type === "transition") {
+    const secondsLeft = Math.ceil(snap.remainingMs / 1000);
+    if (secondsLeft >= 1 && secondsLeft <= 3) {
+      fireIntervalCue(
+        ds,
+        "countdown",
+        `${dayNumber}:${snap.phase.phaseIndex}:countdown:${secondsLeft}`
+      );
+    }
+  }
+
+  // At the first instant of a new work interval, play a distinct "GO" cue.
+  if (snap.phase.type === "work") {
+    const intoPhase = snap.elapsed - snap.phase.startMs;
+    if (intoPhase >= 0 && intoPhase < 650) {
+      fireIntervalCue(
+        ds,
+        "go",
+        `${dayNumber}:${snap.phase.phaseIndex}:go`
+      );
+    }
+  }
+}
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
 import {
   getAuth,
@@ -410,7 +502,7 @@ function renderTimerCard(p,ds) {
   const rows=(interval.config||[]).map((step,idx)=>{const min=Math.floor(Number(step.durationSec||0)/60),sec=Number(step.durationSec||0)%60;return `<div class="interval-row"><input aria-label="Interval name" value="${escapeHtml(step.label||"")}" oninput="updateIntervalDraftLabel(${p.day},${idx},this.value)"><input aria-label="Minutes" type="number" min="0" max="180" value="${min}" oninput="updateIntervalDraftTime(${p.day},${idx},'min',this.value)"><input aria-label="Seconds" type="number" min="0" max="59" value="${sec}" oninput="updateIntervalDraftTime(${p.day},${idx},'sec',this.value)"><button aria-label="Remove interval" onclick="removeIntervalDraftRow(${p.day},${idx})">×</button></div>`;}).join("");
   let label="Ready",clock="00:00",next="";
   if(snap.complete&&snap.totalMs){label="Interval workout complete";clock=formatTime(snap.totalMs);} else if(snap.phase){label=snap.phase.type==="transition"?`Transition • ${snap.phase.label}`:snap.phase.label;clock=formatTime(snap.remainingMs);next=snap.next?`Next: ${snap.next.label}`:"Final interval";}
-  return `<div class="card timer-card"><div class="timer-label">Live workout time</div><div id="sessionClock" class="timer-big">${formatTime(elapsed)}</div><div class="timer-meta"><span>${session.running?"● Running":elapsed>0?"Paused":"Not started"}</span>${session.lastCompletedMs?`<span class="saved-duration">Last completed: ${formatTime(session.lastCompletedMs)}</span>`:""}</div><div class="timer-actions">${session.running?`<button class="timer-btn warn" onclick="pauseWorkout(${p.day})">PAUSE WORKOUT</button>`:`<button class="timer-btn primary" onclick="startWorkout(${p.day})">${elapsed>0?"RESUME WORKOUT":"START WORKOUT"}</button>`}<button class="timer-btn" onclick="resetWorkoutTimer(${p.day})">Reset time</button></div><div class="timer-status">The timer uses the saved start time, so it stays accurate after switching apps, locking your phone, watching YouTube, or refreshing.</div><div class="interval-card"><div class="timer-label">Adjustable interval timer</div><div class="interval-now"><div><div id="intervalPhase" class="interval-phase">${label}</div><div id="intervalNext" class="interval-next">${next}</div></div><div id="intervalClock" class="interval-clock">${clock}</div></div><div class="interval-progress"><div id="intervalBar" style="width:${snap.progress}%"></div></div><div class="timer-actions">${interval.running?`<button class="timer-btn warn" onclick="pauseInterval(${p.day})">PAUSE INTERVALS</button>`:`<button class="timer-btn primary" onclick="startInterval(${p.day})">${snap.elapsed>0&&!snap.complete?"RESUME INTERVALS":"START INTERVALS"}</button>`}<button class="timer-btn" onclick="skipInterval(${p.day},-1)">← Back</button><button class="timer-btn" onclick="skipInterval(${p.day},1)">Skip →</button><button class="timer-btn danger" onclick="resetInterval(${p.day})">Reset intervals</button></div><details class="interval-editor" id="intervalEditor-${p.day}"><summary>Adjust interval sequence</summary><div class="preset-row">${preset?`<button onclick="loadRunPreset(${p.day})">Load today's Run/Walk preset</button>`:""}<button onclick="addIntervalDraftRow(${p.day})">+ Add interval</button></div><div class="interval-settings"><label>Transition countdown (seconds)<input type="number" min="0" max="30" value="${Number(draft.transitionSec??3)}" oninput="updateIntervalDraftTransition(${p.day},this.value)"></label></div><div class="interval-rows">${rows||`<div class="muted">No intervals yet. Add one${preset?" or load today's preset":""}.</div>`}</div><div class="interval-confirm-row"><button class="timer-btn primary" onclick="confirmIntervalSettings(${p.day})">OK — SAVE INTERVALS</button><button class="timer-btn" onclick="cancelIntervalSettings(${p.day})">Cancel</button></div></details></div></div>`;
+  return `<div class="card timer-card"><div class="timer-label">Live workout time</div><div id="sessionClock" class="timer-big">${formatTime(elapsed)}</div><div class="timer-meta"><span>${session.running?"● Running":elapsed>0?"Paused":"Not started"}</span>${session.lastCompletedMs?`<span class="saved-duration">Last completed: ${formatTime(session.lastCompletedMs)}</span>`:""}</div><div class="timer-actions">${session.running?`<button class="timer-btn warn" onclick="pauseWorkout(${p.day})">PAUSE WORKOUT</button>`:`<button class="timer-btn primary" onclick="startWorkout(${p.day})">${elapsed>0?"RESUME WORKOUT":"START WORKOUT"}</button>`}<button class="timer-btn" onclick="resetWorkoutTimer(${p.day})">Reset time</button></div><div class="timer-status">The timer uses the saved start time, so it stays accurate after switching apps, locking your phone, watching YouTube, or refreshing.</div><div class="interval-card"><div class="timer-label">Adjustable interval timer</div><div class="interval-now"><div><div id="intervalPhase" class="interval-phase">${label}</div><div id="intervalNext" class="interval-next">${next}</div></div><div id="intervalClock" class="interval-clock">${clock}</div></div><div class="interval-progress"><div id="intervalBar" style="width:${snap.progress}%"></div></div><div class="timer-actions">${interval.running?`<button class="timer-btn warn" onclick="pauseInterval(${p.day})">PAUSE INTERVALS</button>`:`<button class="timer-btn primary" onclick="startInterval(${p.day})">${snap.elapsed>0&&!snap.complete?"RESUME INTERVALS":"START INTERVALS"}</button>`}<button class="timer-btn" onclick="skipInterval(${p.day},-1)">← Back</button><button class="timer-btn" onclick="skipInterval(${p.day},1)">Skip →</button><button class="timer-btn danger" onclick="resetInterval(${p.day})">Reset intervals</button></div><details class="interval-editor" id="intervalEditor-${p.day}"><summary>Adjust interval sequence</summary><div class="preset-row">${preset?`<button onclick="loadRunPreset(${p.day})">Load today's Run/Walk preset</button>`:""}<button onclick="addIntervalDraftRow(${p.day})">+ Add interval</button></div><div class="interval-settings"><label>Transition countdown (seconds)<input type="number" min="0" max="30" value="${Number(draft.transitionSec??3)}" oninput="updateIntervalDraftTransition(${p.day},this.value)"></label></div><div class="cue-options"><label class="cue-toggle"><input type="checkbox" ${interval.soundEnabled!==false?"checked":""} onchange="setIntervalCueOption(${p.day},'soundEnabled',this.checked)"><span>🔊 Sound cues</span></label><label class="cue-toggle"><input type="checkbox" ${interval.vibrationEnabled!==false?"checked":""} onchange="setIntervalCueOption(${p.day},'vibrationEnabled',this.checked)"><span>📳 Vibration cues</span></label></div><div class="interval-rows">${rows||`<div class="muted">No intervals yet. Add one${preset?" or load today's preset":""}.</div>`}</div><div class="interval-confirm-row"><button class="timer-btn primary" onclick="confirmIntervalSettings(${p.day})">OK — SAVE INTERVALS</button><button class="timer-btn" onclick="cancelIntervalSettings(${p.day})">Cancel</button></div></details></div></div>`;
 }
 
 function renderToday() {
