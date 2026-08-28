@@ -505,6 +505,32 @@ function renderTimerCard(p,ds) {
   return `<div class="card timer-card"><div class="timer-label">Live workout time</div><div id="sessionClock" class="timer-big">${formatTime(elapsed)}</div><div class="timer-meta"><span>${session.running?"● Running":elapsed>0?"Paused":"Not started"}</span>${session.lastCompletedMs?`<span class="saved-duration">Last completed: ${formatTime(session.lastCompletedMs)}</span>`:""}</div><div class="timer-actions">${session.running?`<button class="timer-btn warn" onclick="pauseWorkout(${p.day})">PAUSE WORKOUT</button>`:`<button class="timer-btn primary" onclick="startWorkout(${p.day})">${elapsed>0?"RESUME WORKOUT":"START WORKOUT"}</button>`}<button class="timer-btn" onclick="resetWorkoutTimer(${p.day})">Reset time</button></div><div class="timer-status">The timer uses the saved start time, so it stays accurate after switching apps, locking your phone, watching YouTube, or refreshing.</div><div class="interval-card"><div class="timer-label">Adjustable interval timer</div><div class="interval-now"><div><div id="intervalPhase" class="interval-phase">${label}</div><div id="intervalNext" class="interval-next">${next}</div></div><div id="intervalClock" class="interval-clock">${clock}</div></div><div class="interval-progress"><div id="intervalBar" style="width:${snap.progress}%"></div></div><div class="timer-actions">${interval.running?`<button class="timer-btn warn" onclick="pauseInterval(${p.day})">PAUSE INTERVALS</button>`:`<button class="timer-btn primary" onclick="startInterval(${p.day})">${snap.elapsed>0&&!snap.complete?"RESUME INTERVALS":"START INTERVALS"}</button>`}<button class="timer-btn" onclick="skipInterval(${p.day},-1)">← Back</button><button class="timer-btn" onclick="skipInterval(${p.day},1)">Skip →</button><button class="timer-btn danger" onclick="resetInterval(${p.day})">Reset intervals</button></div><details class="interval-editor" id="intervalEditor-${p.day}"><summary>Adjust interval sequence</summary><div class="preset-row">${preset?`<button onclick="loadRunPreset(${p.day})">Load today's Run/Walk preset</button>`:""}<button onclick="addIntervalDraftRow(${p.day})">+ Add interval</button></div><div class="interval-settings"><label>Transition countdown (seconds)<input type="number" min="0" max="30" value="${Number(draft.transitionSec??3)}" oninput="updateIntervalDraftTransition(${p.day},this.value)"></label></div><div class="cue-options"><label class="cue-toggle"><input type="checkbox" ${interval.soundEnabled!==false?"checked":""} onchange="setIntervalCueOption(${p.day},'soundEnabled',this.checked)"><span>🔊 Sound cues</span></label><label class="cue-toggle"><input type="checkbox" ${interval.vibrationEnabled!==false?"checked":""} onchange="setIntervalCueOption(${p.day},'vibrationEnabled',this.checked)"><span>📳 Vibration cues</span></label></div><div class="interval-rows">${rows||`<div class="muted">No intervals yet. Add one${preset?" or load today's preset":""}.</div>`}</div><div class="interval-confirm-row"><button class="timer-btn primary" onclick="confirmIntervalSettings(${p.day})">OK — SAVE INTERVALS</button><button class="timer-btn" onclick="cancelIntervalSettings(${p.day})">Cancel</button></div></details></div></div>`;
 }
 
+
+function launchWorkoutCelebration(dayNumber) {
+  document.getElementById("workoutCelebration")?.remove();
+  const overlay=document.createElement("div");
+  overlay.id="workoutCelebration";
+  overlay.className="celebration-overlay";
+  const confetti=Array.from({length:60},(_,i)=>`<i class="confetti" style="--x:${Math.random()*100}%;--d:${Math.random()*.8}s;--r:${Math.random()*360}deg"></i>`).join("");
+  overlay.innerHTML=`<div class="celebration-effects"><span class="firework fw1"></span><span class="firework fw2"></span><span class="firework fw3"></span>${confetti}</div><div class="celebration-card"><div class="trophy">🏆</div><div class="celebration-day">DAY ${dayNumber} COMPLETE</div><h2>Congratulations!</h2><p>Today's workout is completed.</p><button class="timer-btn primary" id="closeCelebration">DONE</button></div>`;
+  document.body.appendChild(overlay);
+  try {
+    ensureCueAudio();
+    if(cueAudioContext){
+      [659.25,783.99,1046.5].forEach((f,i)=>{
+        const o=cueAudioContext.createOscillator(),g=cueAudioContext.createGain(),t=cueAudioContext.currentTime+i*.12;
+        o.frequency.value=f; g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.16,t+.01); g.gain.exponentialRampToValueAtTime(.0001,t+.18);
+        o.connect(g);g.connect(cueAudioContext.destination);o.start(t);o.stop(t+.2);
+      });
+    }
+    if("vibrate" in navigator) navigator.vibrate([120,60,120,60,220]);
+  } catch(e){}
+  const close=()=>overlay.remove();
+  document.getElementById("closeCelebration")?.addEventListener("click",close);
+  overlay.addEventListener("click",e=>{if(e.target===overlay)close()});
+  setTimeout(()=>{if(document.body.contains(overlay))close()},6500);
+}
+
 function renderToday() {
   const p = PLAN[selected];
   const ds = dayState(p.day);
@@ -587,6 +613,7 @@ window.toggleCheck = (dayNumber, index, value) => {
 
 window.completeDay = (dayNumber) => {
   const ds = dayState(dayNumber);
+  const wasDone = Boolean(ds.done);
   ds.done = !ds.done;
 
   if (ds.done) {
@@ -607,6 +634,7 @@ window.completeDay = (dayNumber) => {
 
   scheduleSave();
   render();
+  if (!wasDone && ds.done) requestAnimationFrame(() => launchWorkoutCelebration(dayNumber));
 };
 
 window.setField = (dayNumber, field, value) => {

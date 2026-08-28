@@ -159,3 +159,11 @@ main{max-width:980px;margin:auto;padding:12px 18px 80px}.hidden{display:none}.ca
   height:20px;
   accent-color:var(--accent)
 }
+
+.celebration-overlay{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:20px;background:rgba(2,6,23,.8);backdrop-filter:blur(7px)}
+.celebration-card{position:relative;z-index:2;width:min(430px,100%);text-align:center;padding:30px 22px 24px;border-radius:22px;border:1px solid rgba(255,255,255,.16);background:linear-gradient(180deg,#142237,#070f1c);box-shadow:0 24px 80px #0008;animation:celebratePop .4s ease-out}
+.trophy{font-size:58px}.celebration-day{color:var(--accent);font-size:12px;font-weight:950;letter-spacing:.12em}.celebration-card h2{font-size:34px;margin:8px 0 4px}.celebration-card p{color:var(--muted);font-size:17px;margin:0 0 20px}
+.celebration-effects{position:absolute;inset:0;overflow:hidden;pointer-events:none}.confetti{position:absolute;left:var(--x);top:-20px;width:8px;height:16px;border-radius:3px;background:hsl(calc(var(--x)*3.6),85%,62%);animation:confettiFall 2.6s var(--d) ease-in forwards}
+.firework{position:absolute;width:8px;height:8px;border-radius:50%;box-shadow:0 -42px #fbbf24,30px -30px #34d399,42px 0 #60a5fa,30px 30px #f472b6,0 42px #fbbf24,-30px 30px #34d399,-42px 0 #60a5fa,-30px -30px #f472b6;animation:fireworkBurst 1.15s ease-out infinite}.fw1{left:18%;top:24%}.fw2{right:18%;top:20%;animation-delay:.35s}.fw3{left:50%;top:12%;animation-delay:.7s}
+@keyframes celebratePop{from{opacity:0;transform:scale(.78)}to{opacity:1;transform:scale(1)}}@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg)}}@keyframes fireworkBurst{0%{transform:scale(.15);opacity:0}25%{opacity:1}100%{transform:scale(1.25);opacity:0}}
+@media(prefers-reduced-motion:reduce){.confetti,.firework,.celebration-card{animation:none}}
