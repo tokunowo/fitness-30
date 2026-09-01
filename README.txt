@@ -41,3 +41,17 @@ This release fixes the regression visible after the v10 upload:
 • Firebase errors now show their actual error code when one truly occurs.
 • Asset URLs are versioned and service-worker cache is bumped to v11.
 • Existing localStorage key remains exactly `tosinFitness30.v1`.
+
+
+v12 — DAY CORRECTIONS + VIDEO VARIETY
+-------------------------------------
+• Calendar day navigation fixed: past/future days can now be opened reliably.
+• Previous / Program Today / Next controls added directly to the Today screen.
+• Any day can be reopened, corrected, completed, or marked incomplete again.
+• Completed-day button now clearly says TAP TO CORRECT / REOPEN.
+• Every exercise now has a “Different Video” option.
+• Warm-up and Stretch alternate-video searches rotate across several different routines by day.
+• Other exercises open a fresh beginner proper-form YouTube search for that specific movement.
+• Existing verified demo link remains available as “Demo”.
+• Existing progress key and Firebase data path are unchanged.
+• Cache/assets bumped to v12.

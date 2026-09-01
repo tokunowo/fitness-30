@@ -559,6 +559,53 @@ function difficultyLabel(value) {
   return labels[Number(value)] || "Not rated";
 }
 
+
+function openDayIndex(index) {
+  selected = Math.max(0, Math.min(PLAN.length - 1, Number(index)));
+  switchView("today");
+}
+window.openDayIndex = openDayIndex;
+
+window.openPreviousDay = () => {
+  openDayIndex(selected - 1);
+};
+window.openNextDay = () => {
+  openDayIndex(selected + 1);
+};
+window.openProgramToday = () => {
+  openDayIndex(currentDayIndex());
+};
+
+function youtubeSearchUrl(exerciseName, dayNumber, title) {
+  const day = Number(dayNumber);
+  const rotating = {
+    "Warm-up": [
+      "5 minute dynamic warm up beginner full body",
+      "7 minute full body warm up no equipment beginner",
+      "beginner mobility warm up before workout",
+      "upper body dynamic warm up beginner",
+      "lower body dynamic warm up beginner"
+    ],
+    "Stretch": [
+      "5 minute full body cool down stretch beginner",
+      "7 minute post workout stretch full body beginner",
+      "full body mobility recovery stretch beginner",
+      "upper body cool down stretch beginner",
+      "lower body cool down stretch beginner"
+    ]
+  };
+
+  let query;
+  if (rotating[exerciseName]) {
+    const choices = rotating[exerciseName];
+    query = choices[(day - 1) % choices.length];
+  } else {
+    query = `${exerciseName} proper form beginner tutorial`;
+  }
+
+  return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
+}
+
 function renderToday() {
   const p = PLAN[selected];
   const ds = dayState(p.day);
@@ -573,19 +620,33 @@ function renderToday() {
         <div class="work">${e.work}</div>
         <div class="cue">${e.cue}</div>
       </div>
-      ${e.video
-        ? `<a class="watch" href="${e.video}" target="_blank" rel="noopener noreferrer">▶ Watch</a>`
-        : ""}
+      <div class="video-actions">
+        ${e.video
+          ? `<a class="watch" href="${e.video}" target="_blank" rel="noopener noreferrer">▶ Demo</a>`
+          : ""}
+        <a class="watch alt-video"
+           href="${youtubeSearchUrl(e.name, p.day, p.title)}"
+           target="_blank"
+           rel="noopener noreferrer">↻ Different Video</a>
+      </div>
     </div>
   `).join("");
 
   document.getElementById("todayView").innerHTML = `
     <div class="card">
+      <div class="day-nav">
+        <button class="day-nav-btn" onclick="openPreviousDay()" ${selected===0?"disabled":""}>← Previous</button>
+        <button class="day-nav-btn today-jump" onclick="openProgramToday()">Program Today</button>
+        <button class="day-nav-btn" onclick="openNextDay()" ${selected===PLAN.length-1?"disabled":""}>Next →</button>
+      </div>
       <div class="dayline">DAY ${p.day} OF 30 • ${p.dateLabel}</div>
       <h2>${p.title}</h2>
       <div class="muted">
         Target time: ${p.target} • Rest 60–90 sec between strength sets.
       </div>
+      ${selected!==currentDayIndex()
+        ? `<div class="editing-day-note">Editing Day ${p.day}. You can correct checkmarks, difficulty, timer details and completion status.</div>`
+        : ""}
     </div>
 
     ${renderTimerCard(p, ds)}
@@ -594,7 +655,7 @@ function renderToday() {
       ${exercises}
       <button class="complete ${ds.done ? "done" : ""}"
         onclick="completeDay(${p.day})">
-        ${ds.done ? "✓ DAY COMPLETE — TAP TO REOPEN" : "COMPLETE DAY " + p.day}
+        ${ds.done ? "✓ DAY COMPLETE — TAP TO CORRECT / REOPEN" : "MARK DAY " + p.day + " COMPLETE"}
       </button>
     </div>
 
@@ -675,7 +736,7 @@ function renderCalendar() {
     <div class="card">
       <h2>30-Day Calendar</h2>
       <p class="muted">
-        Tap any day to open it.
+        Tap any day to open, complete, or correct it.
         ${currentUser
           ? "Cloud sync is active."
           : "Progress is currently saved on this device."}
@@ -685,7 +746,7 @@ function renderCalendar() {
           <div class="daycard
             ${dayState(p.day).done ? "done" : ""}
             ${i === currentDayIndex() ? "current" : ""}"
-            onclick="selected=${i};switchView('today')">
+            onclick="openDayIndex(${i})">
             <div class="n">
               Day ${p.day} ${dayState(p.day).done ? "✓" : ""}
             </div>

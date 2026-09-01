@@ -167,3 +167,50 @@ main{max-width:980px;margin:auto;padding:12px 18px 80px}.hidden{display:none}.ca
 .firework{position:absolute;width:8px;height:8px;border-radius:50%;box-shadow:0 -42px #fbbf24,30px -30px #34d399,42px 0 #60a5fa,30px 30px #f472b6,0 42px #fbbf24,-30px 30px #34d399,-42px 0 #60a5fa,-30px -30px #f472b6;animation:fireworkBurst 1.15s ease-out infinite}.fw1{left:18%;top:24%}.fw2{right:18%;top:20%;animation-delay:.35s}.fw3{left:50%;top:12%;animation-delay:.7s}
 @keyframes celebratePop{from{opacity:0;transform:scale(.78)}to{opacity:1;transform:scale(1)}}@keyframes confettiFall{to{transform:translateY(110vh) rotate(720deg)}}@keyframes fireworkBurst{0%{transform:scale(.15);opacity:0}25%{opacity:1}100%{transform:scale(1.25);opacity:0}}
 @media(prefers-reduced-motion:reduce){.confetti,.firework,.celebration-card{animation:none}}
+
+/* v12 day navigation + correction controls */
+.day-nav{
+  display:grid;
+  grid-template-columns:1fr 1.2fr 1fr;
+  gap:8px;
+  margin-bottom:14px
+}
+.day-nav-btn{
+  min-height:42px;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:#111b2c;
+  color:var(--text);
+  font-weight:850;
+  cursor:pointer
+}
+.day-nav-btn:disabled{opacity:.35;cursor:not-allowed}
+.day-nav-btn.today-jump{
+  border-color:rgba(52,211,153,.45);
+  color:var(--accent)
+}
+.editing-day-note{
+  margin-top:12px;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(52,211,153,.25);
+  background:rgba(52,211,153,.08);
+  color:var(--accent);
+  font-size:13px;
+  font-weight:800
+}
+.video-actions{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  min-width:126px
+}
+.watch.alt-video{
+  opacity:.9;
+  font-size:12px
+}
+@media(max-width:640px){
+  .day-nav{grid-template-columns:1fr 1fr 1fr;gap:5px}
+  .day-nav-btn{font-size:11px;padding:8px 4px}
+  .video-actions{min-width:112px}
+}
