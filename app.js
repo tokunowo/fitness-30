@@ -606,11 +606,40 @@ function youtubeSearchUrl(exerciseName, dayNumber, title) {
   return `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`;
 }
 
+
+const EXERCISE_ALTERNATIVES=[
+{match:/run|jog|walk/i,name:"Indoor Stepper",why:"Keeps the cardio and endurance goal indoors when outdoor running or walking is not practical.",search:"beginner indoor mini stepper cardio workout"},
+{match:/bicycle|bike|cycling/i,name:"Indoor Stepper",why:"Maintains steady cardiovascular endurance when cycling is unavailable.",search:"beginner mini stepper steady cardio workout"},
+{match:/stepper/i,name:"Low-Impact Indoor March",why:"Maintains continuous cardio with no special equipment and easy intensity control.",search:"low impact indoor walking marching cardio beginner"},
+{match:/incline push-up|push-up/i,name:"Dumbbell Floor Press",why:"Trains the same main pushing muscles: chest, shoulders and triceps, with easier load control.",search:"dumbbell floor press proper form beginner"},
+{match:/dumbbell row/i,name:"Resistance-Band Row",why:"Keeps the upper-back pulling goal while changing the resistance and body position.",search:"resistance band row proper form beginner"},
+{match:/band row/i,name:"One-Arm Dumbbell Row",why:"Keeps the back and pulling goal using a dumbbell instead of the band.",search:"one arm dumbbell row proper form beginner"},
+{match:/goblet squat/i,name:"Bench Sit-to-Stand",why:"Keeps the squat and leg-strength pattern with a more controlled range of motion.",search:"bench sit to stand squat beginner proper form"},
+{match:/romanian deadlift|rdl/i,name:"Glute Bridge",why:"Keeps posterior-chain work focused on the glutes and hamstrings with less standing hip-hinge demand.",search:"glute bridge proper form beginner"},
+{match:/glute bridge/i,name:"Bench Hip Thrust",why:"Keeps the glute and hip-extension goal with a different setup.",search:"bench hip thrust beginner proper form"},
+{match:/shoulder press/i,name:"Band Overhead Press",why:"Keeps the shoulder-pressing goal with adjustable band resistance.",search:"resistance band overhead press beginner proper form"},
+{match:/floor press/i,name:"Incline Push-up",why:"Keeps the chest, shoulder and triceps pushing goal without lying on the floor.",search:"incline push up proper form beginner"},
+{match:/hammer curl|biceps curl|curl/i,name:"Resistance-Band Curl",why:"Keeps the biceps goal with lighter adjustable resistance.",search:"resistance band bicep curl proper form beginner"},
+{match:/triceps extension/i,name:"Band Triceps Pressdown",why:"Keeps the triceps-strength goal with a different arm position.",search:"resistance band tricep pressdown beginner"},
+{match:/plank/i,name:"Dead Bug",why:"Keeps the core-stability goal while removing prolonged weight-bearing through the arms.",search:"dead bug exercise proper form beginner"},
+{match:/dead bug/i,name:"Bird Dog",why:"Keeps controlled core stability and coordination with a different position.",search:"bird dog exercise proper form beginner"},
+{match:/reverse crunch/i,name:"Dead Bug",why:"Keeps controlled abdominal work with less spinal curling.",search:"dead bug exercise proper form beginner"},
+{match:/leg raise/i,name:"Bent-Knee Reverse Crunch",why:"Keeps lower-abdominal work with a shorter lever and easier control.",search:"bent knee reverse crunch beginner proper form"},
+{match:/russian twist|side plank/i,name:"Standing Band Pallof Press",why:"Keeps rotational and lateral core stability with controlled anti-rotation.",search:"resistance band pallof press beginner"},
+{match:/calf raise/i,name:"Seated Calf Raise",why:"Keeps calf strengthening with less balance demand.",search:"seated calf raise dumbbell beginner proper form"},
+{match:/warm-up/i,name:"Indoor Dynamic Mobility",why:"Prepares the same major joints and muscles using a different full-body routine.",search:"beginner indoor dynamic mobility warm up full body"},
+{match:/stretch/i,name:"Gentle Full-Body Mobility",why:"Keeps the cool-down and mobility goal with a different routine.",search:"gentle full body mobility cool down beginner"}];
+function alternativeForExercise(name){const n=String(name||"");return EXERCISE_ALTERNATIVES.find(x=>x.match.test(n))||{name:"Low-Impact Equivalent",why:"Choose a comfortable movement for the same body area and movement pattern.",search:`${n} low impact alternative beginner exercise`};}
+function alternativeVideoUrl(alt){return `https://www.youtube.com/results?search_query=${encodeURIComponent(alt.search)}`;}
+window.toggleExerciseAlternative=(d,i)=>{const panel=document.getElementById(`alt-${d}-${i}`);if(panel)panel.hidden=!panel.hidden;};
+
 function renderToday() {
   const p = PLAN[selected];
   const ds = dayState(p.day);
 
-  const exercises = p.exercises.map((e, i) => `
+  const exercises = p.exercises.map((e, i) => {
+    const alt = alternativeForExercise(e.name);
+    return `
     <div class="exercise">
       <input type="checkbox"
         ${ds.checks[i] ? "checked" : ""}
@@ -621,16 +650,19 @@ function renderToday() {
         <div class="cue">${e.cue}</div>
       </div>
       <div class="video-actions">
-        ${e.video
-          ? `<a class="watch" href="${e.video}" target="_blank" rel="noopener noreferrer">▶ Demo</a>`
-          : ""}
-        <a class="watch alt-video"
-           href="${youtubeSearchUrl(e.name, p.day, p.title)}"
-           target="_blank"
-           rel="noopener noreferrer">↻ Different Video</a>
+        ${e.video ? `<a class="watch" href="${e.video}" target="_blank" rel="noopener noreferrer">▶ Demo</a>` : ""}
+        <a class="watch alt-video" href="${youtubeSearchUrl(e.name,p.day,p.title)}" target="_blank" rel="noopener noreferrer">↻ Different Video</a>
+        <button type="button" class="watch alternative-btn" onclick="toggleExerciseAlternative(${p.day},${i})">⇄ Alternative</button>
       </div>
-    </div>
-  `).join("");
+      <div class="exercise-alternative" id="alt-${p.day}-${i}" hidden>
+        <div class="alternative-label">SAME-GOAL ALTERNATIVE</div>
+        <strong>${alt.name}</strong>
+        <p>${alt.why}</p>
+        <a class="watch" href="${alternativeVideoUrl(alt)}" target="_blank" rel="noopener noreferrer">▶ Alternative Video</a>
+        <div class="alternative-caution">If pain is the reason for switching, use only a comfortable, pain-free movement. Stop if the alternative also hurts.</div>
+      </div>
+    </div>`;
+  }).join("");
 
   document.getElementById("todayView").innerHTML = `
     <div class="card">

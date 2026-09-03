@@ -214,3 +214,8 @@ main{max-width:980px;margin:auto;padding:12px 18px 80px}.hidden{display:none}.ca
   .day-nav-btn{font-size:11px;padding:8px 4px}
   .video-actions{min-width:112px}
 }
+
+.alternative-btn{appearance:none;width:100%;text-align:center;cursor:pointer;border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.08);color:var(--accent)}
+.exercise-alternative{grid-column:1/-1;margin-top:10px;padding:13px;border-radius:12px;border:1px solid rgba(52,211,153,.28);background:rgba(52,211,153,.065)}
+.exercise-alternative[hidden]{display:none}.alternative-label{margin-bottom:5px;color:var(--accent);font-size:10px;font-weight:950;letter-spacing:.1em}
+.exercise-alternative strong{display:block;font-size:16px;margin-bottom:4px}.exercise-alternative p{margin:0 0 10px;color:var(--muted);line-height:1.45}.alternative-caution{margin-top:10px;font-size:11px;color:var(--muted)}

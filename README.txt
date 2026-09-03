@@ -55,3 +55,5 @@ v12 — DAY CORRECTIONS + VIDEO VARIETY
 • Existing verified demo link remains available as “Demo”.
 • Existing progress key and Firebase data path are unchanged.
 • Cache/assets bumped to v12.
+
+v13: Added same-goal Alternative button and alternative video for every exercise. Existing progress/Firebase storage preserved.
